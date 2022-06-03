@@ -165,6 +165,7 @@ Useful links:
 * https://lift.sonatype.com/results/github.com/daggerok
 * https://help.sonatype.com/repomanager2/staging-releases/configuring-your-project-for-deployment
 * https://central.sonatype.org/publish/publish-maven/#gpg-signed-components
+* https://v2.vuepress.vuejs.org/guide/getting-started.html
 
 For further reference, please consider the following sections:
 

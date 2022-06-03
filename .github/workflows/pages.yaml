@@ -1,0 +1,39 @@
+name: pages
+on:
+  workflow_dispatch:
+    inputs:
+      trigger:
+        description: Type m to triggre manual jobs
+        required: false
+        default: ''
+  pull_request:
+    branches: [ master, main ]
+  push:
+env:
+  NODE_VERSION: 18.2.0
+jobs:
+  pages:
+    if: github.event.inputs.trigger == ''
+      || !startsWith(github.event.inputs.trigger, 'm')
+      || !startsWith(github.event.inputs.trigger, 'M')
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: ${{ env.NODE_VERSION }}
+    - uses: actions/cache@v3
+      with:
+        path: |
+          ~/.m2
+          ~/.npm
+          ~/.docker
+          ~/.gradle
+        key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
+    - run: npm --prefix docs install -E
+    - run: npm --prefix docs run pages
+    - name: Deploy 🚀 GitHub Pages
+      uses: JamesIves/github-pages-deploy-action@v4.3.3
+      with:
+        branch: gh-pages # The branch the action should deploy to.
+        folder: docs/.vuepress/dist # The folder the action should deploy.

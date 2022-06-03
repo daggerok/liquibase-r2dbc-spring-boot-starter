@@ -13,7 +13,7 @@ set -o pipefail
 set -e
 
 if [[ -n "$GPG_PASSPHRASE" ]] ; then
-  echo "Detected $GPG_PASSPHRASE environment variable"
+  echo "Detected GPG_PASSPHRASE environment variable"
 fi
 
 ARGS=${1:-"-Dgpg.passphrase=$GPG_PASSPHRASE"}
