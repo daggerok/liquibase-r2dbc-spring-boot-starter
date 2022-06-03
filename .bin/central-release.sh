@@ -30,7 +30,6 @@ if [[ "$VERSION" == *"-SNAPSHOT" ]] ; then
   cd "${ROOT_PROJECT_DIR}" && VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
   cd "${ROOT_PROJECT_DIR}" && git add . ; git commit -am "Release $VERSION version." ; git push origin master
 fi
-
 echo "Deploying $VERSION release..."
 cd "${ROOT_PROJECT_DIR}" && ./mvnw -P central-release clean deploy ${ARGS}
 
