@@ -16,7 +16,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.daggerok</groupId>
     <artifactId>liquibase-r2dbc-spring-boot-starter-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <name>${project.artifactId}</name>
     <description>The liquibase-r2dbc-spring-boot-starter maven parent project</description>
     <url>https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter</url>
@@ -366,7 +366,7 @@
                 ./mvnw build-helper:parse-version versions:commit                           # remove all pom.xml.versionsBackup files
                 #./mvnw build-helper:parse-version versions:revert                          # revert if you did mistake
                 VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`   # VERSION: x.y.z
-                git add . ; git commit -am "Release: $VERSION version." ; git push ...
+                git add . ; git commit -am "Release $VERSION version manually." ; git push origin master
                 GPG_PASSPHRASE=... ./mvnw -P central-release clean deploy                   # <- deploy x.y.z version
 
                 # set next SNAPSHOT version: x.y.z -> x.y.(z+1)-SNAPSHOT
