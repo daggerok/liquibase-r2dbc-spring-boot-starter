@@ -22,6 +22,10 @@ import org.springframework.context.annotation.ComponentScan
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ResourceLoader
 
+/**
+ * Liquibase R2DBC spring-boot starter
+ * @since 0.0.1
+ */
 @Configuration
 @ConditionalOnProperty(
     prefix = "spring.liquibase",
