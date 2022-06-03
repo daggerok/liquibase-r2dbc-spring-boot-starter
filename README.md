@@ -1,6 +1,16 @@
 # Liquibase R2DBC MySQL Spring Boot starter [![tests](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml/badge.svg)](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml)
 This repository demonstrates how 2 implement Liquibase R2DBC (MySQL) Spring Boot starter to be used in reactive projects
 
+### Getting started
+
+```xml
+<dependency>
+  <groupId>io.github.daggerok</groupId>
+  <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
+  <version>0.0.4</version>
+</dependency>
+```
+
 ### Technology Stack
 * Liquibase
 * R2DBC
