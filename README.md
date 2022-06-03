@@ -153,6 +153,8 @@ Useful links:
 * https://central.sonatype.org/publish/release/
 * https://help.sonatype.com/lift/configuring-lift
 * https://lift.sonatype.com/results/github.com/daggerok
+* https://help.sonatype.com/repomanager2/staging-releases/configuring-your-project-for-deployment
+* https://central.sonatype.org/publish/publish-maven/#gpg-signed-components
 
 For further reference, please consider the following sections:
 

@@ -25,6 +25,10 @@ import org.springframework.web.reactive.function.server.bodyToMono
 import org.springframework.web.reactive.function.server.router
 import reactor.core.publisher.Flux
 
+/**
+ * Liquibase R2DBC spring-boot starter sample
+ * @since 0.0.1
+ */
 @EnableR2dbcAuditing
 @SpringBootApplication
 class SampleApplication

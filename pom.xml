@@ -194,6 +194,7 @@
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
                     <execution>
+                        <phase>generate-sources</phase>
                         <id>attach-sources</id>
                         <goals>
                             <goal>jar-no-fork</goal>
@@ -202,18 +203,25 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <failOnError>false</failOnError>
-                    <failOnWarnings>false</failOnWarnings>
-                </configuration>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>attach-javadocs</id>
+                        <id>fix-kotlin-missing-javadoc-and-attach-empty-archive-instead</id>
+                        <phase>prepare-package</phase>
                         <goals>
-                            <goal>jar</goal>
+                            <goal>attach-artifact</goal>
                         </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <!--suppress UnresolvedMavenProperty -->
+                                    <file>${maven.multiModuleProjectDirectory}/.fix/kotlin-empty-javadoc.zip</file>
+                                    <type>jar</type>
+                                    <classifier>javadoc</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -226,8 +234,8 @@
                 </configuration>
                 <executions>
                     <execution>
-                        <id>sign-artifacts</id>
                         <phase>verify</phase>
+                        <id>sign-artifacts</id>
                         <goals>
                             <goal>sign</goal>
                         </goals>
@@ -240,7 +248,9 @@
         <profile>
             <id>local-publish</id>
             <!--
-                ./mvnw -P local-publish
+                This profile must be used to simply verify how local maven publishing with works:
+
+                ./mvnw clean ; ./mvnw -DskipTests -P local-publish -Dgpg.passphrase=yourPassphrase
             -->
             <build>
                 <defaultGoal>clean deploy</defaultGoal>
@@ -256,6 +266,14 @@
         <profile>
             <id>local-release</id>
             <!--
+                This profile can be used if you want to:
+                    - change x.y.z-SNAPSHOT version to released x.y.z
+                    - commit that change
+                    - create x.y.z git tag
+                    - change x.y.z version to next development x.y.(z+1)-SNAPSHOT
+                    - commit that change
+                    - and finally publish everything to GitHub
+
                 ./mvnw -B -P local-release
             -->
             <build>
@@ -279,6 +297,8 @@
         <profile>
             <id>read gpg.passphrase system property</id>
             <!--
+                This profile will pick `gpg.passphrase` java system property to configure maven-gpg-plugin passphrase implicitly
+
                 ./mvnw -Dgpg.passphrase=...
             -->
             <activation>
@@ -302,15 +322,15 @@
                                 <goals>
                                     <goal>sign</goal>
                                 </goals>
+                                <configuration>
+                                    <passphrase>${gpg.passphrase}</passphrase>
+                                    <gpgArguments>
+                                        <arg>--pinentry-mode</arg>
+                                        <arg>loopback</arg>
+                                    </gpgArguments>
+                                </configuration>
                             </execution>
                         </executions>
-                        <configuration>
-                            <passphrase>${gpg.passphrase}</passphrase>
-                            <gpgArguments>
-                                <arg>--pinentry-mode</arg>
-                                <arg>loopback</arg>
-                            </gpgArguments>
-                        </configuration>
                     </plugin>
                 </plugins>
             </build>
@@ -318,6 +338,8 @@
         <profile>
             <id>read GPG_PASSPHRASE environment variable</id>
             <!--
+                This profile will pick `GPG_PASSPHRASE` environment variable to configure maven-gpg-plugin passphrase implicitly
+
                 GPG_PASSPHRASE=... ./mvnw ...
             -->
             <activation>
@@ -358,23 +380,44 @@
         <profile>
             <id>central-release</id>
             <!--
-                ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout          # x.y.z-SNAPSHOT
-                GPG_PASSPHRASE=... ./mvnw -P central-release clean deploy                   # <- deploy that x.y.z-SNAPSHOT version
+                This profile mainly must be used to release project artifacts to central maven repository
 
-                # set release version (drop -SNAPSHOT): x.y.z-SNAPSHOT -> x.y.z
-                ./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}
-                ./mvnw build-helper:parse-version versions:commit                           # remove all pom.xml.versionsBackup files
-                #./mvnw build-helper:parse-version versions:revert                          # revert if you did mistake
-                VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`   # VERSION: x.y.z
-                git add . ; git commit -am "Release $VERSION version manually." ; git push origin master
-                GPG_PASSPHRASE=... ./mvnw -P central-release clean deploy                   # <- deploy x.y.z version
+                Prerequisites are:
+                    - gpg install, private key with passphrase generated
+                    - maven pom.xml required plugins added and configured with proper profiles
 
-                # set next SNAPSHOT version: x.y.z -> x.y.(z+1)-SNAPSHOT
-                ./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}-SNAPSHOT
+                Workflow:
 
-                # TODO: ...
-                ./mvnw -P central-release nexus-staging:release
-                ./mvnw -P central-release nexus-staging:drop
+                    - Let's say your version is x.y.z-SNAPSHOT
+                        ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout
+
+                    - Then you can deploy snapshot version to maven central just like so:
+                        GPG_PASSPHRASE=... ./mvnw -P central-release clean deploy
+
+                    - When testing of deployed x.y.z-SNAPSHOT is done, you can change version to released: x.y.z-SNAPSHOT -> x.y.z
+                        ./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}
+
+                    - If something goes wrong, you can simply revert last change with help of previously created pom.xml.versionsBackup files:
+                        ./mvnw build-helper:parse-version versions:revert
+
+                    - Otherwise commit, this will remove all generated pom.xml.versionsBackup files:
+                        ./mvnw build-helper:parse-version versions:commit
+
+                    - Let's commit release version with these commands:
+                        VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
+                        git add . ; git commit -am "Release $VERSION version manually." ; git push origin master
+
+                    - And release x.y.z version artifacts to maven central:
+                        GPG_PASSPHRASE=... ./mvnw -P central-release clean deploy
+
+                    - It's time to create and push GitHub tag released version:
+                        git tag $VERSION ; git push origin $VERSION
+
+                    - Finally create next SNAPSHOT version for future development iteration: x.y.z -> x.y.(z+1)-SNAPSHOT
+                        ./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}-SNAPSHOT
+                        ./mvnw build-helper:parse-version versions:commit
+                        VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`
+                        git add . ; git commit -am "Start next $VERSION development iteration." ; git push origin master
 
                 see: https://central.sonatype.org/publish/publish-maven/#nexus-staging-maven-plugin-for-deployment-and-release
             -->
@@ -383,10 +426,6 @@
                     <id>ossrh</id>
                     <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
                 </snapshotRepository>
-                <!-- <repository>
-                    <id>ossrh</id>
-                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-                </repository> -->
             </distributionManagement>
             <build>
                 <defaultGoal>clean deploy</defaultGoal>
@@ -399,8 +438,11 @@
                         <configuration>
                             <serverId>ossrh</serverId>
                             <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                            <!-- <autoReleaseAfterClose>true</autoReleaseAfterClose> -->
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <tags>
+                                <localUsername>${env.USER}</localUsername>
+                                <javaVersion>${java.version}</javaVersion>
+                            </tags>
                         </configuration>
                     </plugin>
                 </plugins>
