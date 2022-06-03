@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd
+		                    http://www.liquibase.org/xml/ns/dbchangelog-ext
+		                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		                    http://www.liquibase.org/xml/ns/pro https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.9.xsd">
+
+    <changeSet id="V202206022345" author="Maksim Kostromin">
+        <comment>Insert test data into `messages` table with rollback</comment>
+
+        <insert tableName="messages">
+            <column name="id" value="2"/>
+            <column name="body" value="Hello, all!"/>
+        </insert>
+
+        <insert tableName="messages">
+            <column name="id" value="3"/>
+            <column name="body" value="Hello, World!"/>
+        </insert>
+
+        <rollback>
+            <delete tableName="messages">
+                <where>id in (0, 1)</where>
+            </delete>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

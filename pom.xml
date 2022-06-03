@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.7.0</version>
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+    <modules>
+        <module>liquibase-r2dbc-spring-boot-starter</module>
+        <module>liquibase-r2dbc-spring-boot-starter-example</module>
+    </modules>
+    <packaging>pom</packaging>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>io.github.daggerok</groupId>
+    <artifactId>liquibase-r2dbc-spring-boot-starter-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>${project.artifactId}</name>
+    <description>The liquibase-r2dbc-spring-boot-starter maven parent project</description>
+    <url>https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter</url>
+    <developers>
+        <developer>
+            <name>Maksim Kostromin</name>
+            <email>daggerok@gmail.com</email>
+            <organization>Sets of open source Maksim Kostromin aka daggerok projects</organization>
+            <organizationUrl>https://github.com/daggerok/</organizationUrl>
+        </developer>
+    </developers>
+    <organization>
+        <name>Maksim Kostromin aka daggerok open source projects sets</name>
+        <url>https://github.com/daggerok/</url>
+    </organization>
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <distribution>repo</distribution>
+            <!-- <url>https://opensource.org/licenses/MIT</url> -->
+            <url>https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/blob/master/LICENSE</url>
+        </license>
+    </licenses>
+    <scm>
+        <developerConnection>scm:git:git@github.com:daggerok/liquibase-r2dbc-spring-boot-starter.git</developerConnection>
+        <connection>scm:git:https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter.git</connection>
+        <url>https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter</url>
+        <!-- <tag>master</tag> -->
+        <tag>HEAD</tag>
+    </scm>
+    <properties>
+        <gpg.skip>true</gpg.skip>
+        <java.version>11</java.version>
+        <kotlin.version>1.6.21</kotlin.version>
+        <HikariCP.version>5.0.1</HikariCP.version>
+        <liquibase.version>4.10.0</liquibase.version>
+        <spring-boot.version>2.7.0</spring-boot.version>
+        <testcontainers.version>1.17.2</testcontainers.version>
+        <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
+        <log4j-api-kotlin.version>1.1.0</log4j-api-kotlin.version>
+        <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+        <webjars.npm.mvp.css.version>1.8.0</webjars.npm.mvp.css.version>
+        <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>io.projectreactor.kotlin</groupId>
+            <artifactId>reactor-kotlin-extensions</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-reactor</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api-kotlin</artifactId>
+            <version>${log4j-api-kotlin.version}</version>
+        </dependency>
+        <!--  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--  -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-r2dbc</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--  -->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.testcontainers</groupId>
+                <artifactId>testcontainers-bom</artifactId>
+                <version>${testcontainers.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <defaultGoal>verify</defaultGoal>
+        <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+        <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>build-info</goal>
+                                <goal>repackage</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <configuration>
+                    <args>
+                        <arg>-Xjsr305=strict</arg>
+                    </args>
+                    <compilerPlugins>
+                        <plugin>spring</plugin>
+                    </compilerPlugins>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.jetbrains.kotlin</groupId>
+                        <artifactId>kotlin-maven-allopen</artifactId>
+                        <version>${kotlin.version}</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>kapt</id>
+                        <goals>
+                            <goal>kapt</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <sourceDir>src/main/kotlin</sourceDir>
+                            </sourceDirs>
+                            <annotationProcessorPaths>
+                                <annotationProcessorPath>
+                                    <groupId>org.springframework.boot</groupId>
+                                    <artifactId>spring-boot-configuration-processor</artifactId>
+                                    <version>${spring-boot.version}</version>
+                                </annotationProcessorPath>
+                            </annotationProcessorPaths>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <failOnError>false</failOnError>
+                    <failOnWarnings>false</failOnWarnings>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>${maven-gpg-plugin.version}</version>
+                <configuration>
+                    <skip>${gpg.skip}</skip>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>local-publish</id>
+            <!--
+                ./mvnw -P local-publish
+            -->
+            <build>
+                <defaultGoal>clean deploy</defaultGoal>
+            </build>
+            <distributionManagement>
+                <repository>
+                    <id>local-maven-repo</id>
+                    <!--suppress UnresolvedMavenProperty -->
+                    <url>file://${maven.multiModuleProjectDirectory}/target/.m2/repository</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>local-release</id>
+            <!--
+                ./mvnw -B -P local-release
+            -->
+            <build>
+                <defaultGoal>release:clean release:prepare release:perform</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-release-plugin</artifactId>
+                        <configuration>
+                            <releaseProfiles>local-publish</releaseProfiles>
+                            <arguments>-B -DskipTests -Dmaven.deploy.skip=true -DgenerateBackupPoms=false</arguments>
+                            <autoVersionSubmodules>true</autoVersionSubmodules>
+                            <tagNameFormat>@{project.version}</tagNameFormat>
+                            <generateReleasePoms>false</generateReleasePoms>
+                            <resume>false</resume>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>read gpg.passphrase system property</id>
+            <!--
+                ./mvnw -Dgpg.passphrase=...
+            -->
+            <activation>
+                <property>
+                    <name>gpg.passphrase</name>
+                </property>
+            </activation>
+            <properties>
+                <gpg.skip>false</gpg.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <passphrase>${gpg.passphrase}</passphrase>
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>read GPG_PASSPHRASE environment variable</id>
+            <!--
+                GPG_PASSPHRASE=... ./mvnw ...
+            -->
+            <activation>
+                <property>
+                    <name>env.GPG_PASSPHRASE</name>
+                </property>
+            </activation>
+            <properties>
+                <gpg.skip>false</gpg.skip>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>${maven-gpg-plugin.version}</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <passphrase>${env.GPG_PASSPHRASE}</passphrase>
+                            <!-- Prevent `gpg` from using pinentry programs -->
+                            <gpgArguments>
+                                <arg>--pinentry-mode</arg>
+                                <arg>loopback</arg>
+                            </gpgArguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>central-release</id>
+            <!--
+                ./mvnw help:evaluate -Dexpression=project.version -q -DforceStdout          # x.y.z-SNAPSHOT
+                GPG_PASSPHRASE=... ./mvnw -P central-release clean deploy                   # <- deploy that x.y.z-SNAPSHOT version
+
+                # set release version (drop -SNAPSHOT): x.y.z-SNAPSHOT -> x.y.z
+                ./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}
+                ./mvnw build-helper:parse-version versions:commit                           # remove all pom.xml.versionsBackup files
+                #./mvnw build-helper:parse-version versions:revert                          # revert if you did mistake
+                VERSION=`mvn help:evaluate -Dexpression=project.version -q -DforceStdout`   # VERSION: x.y.z
+                git add . ; git commit -am "Release: $VERSION version." ; git push ...
+                GPG_PASSPHRASE=... ./mvnw -P central-release clean deploy                   # <- deploy x.y.z version
+
+                # set next SNAPSHOT version: x.y.z -> x.y.(z+1)-SNAPSHOT
+                ./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.minorVersion}.\${parsedVersion.incrementalVersion}-SNAPSHOT
+
+                # TODO: ...
+                ./mvnw -P central-release nexus-staging:release
+                ./mvnw -P central-release nexus-staging:drop
+
+                see: https://central.sonatype.org/publish/publish-maven/#nexus-staging-maven-plugin-for-deployment-and-release
+            -->
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+                </snapshotRepository>
+                <!-- <repository>
+                    <id>ossrh</id>
+                    <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository> -->
+            </distributionManagement>
+            <build>
+                <defaultGoal>clean deploy</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>${nexus-staging-maven-plugin.version}</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                            <!-- <autoReleaseAfterClose>true</autoReleaseAfterClose> -->
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

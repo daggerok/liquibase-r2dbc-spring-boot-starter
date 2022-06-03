@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd
+		                    http://www.liquibase.org/xml/ns/dbchangelog-ext
+		                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		                    http://www.liquibase.org/xml/ns/pro https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.9.xsd">
+
+    <!-- MySQL data types -->
+    <property name="current.timestamp.function" dbms="mysql" value="CURRENT_TIMESTAMP"/>
+    <property name="timestamp.type" dbms="mysql" value="TIMESTAMP"/>
+    <property name="long.datetime.type" dbms="mysql" value="DATETIME(6)"/>
+    <property name="datetime.type" dbms="mysql" value="DATETIME"/>
+    <property name="date.type" dbms="mysql" value="DATE"/>
+    <property name="time.type" dbms="mysql" value="TIME"/>
+    <property name="decimal.type" dbms="mysql" value="DECIMAL(19,8)"/>
+    <property name="double.type" dbms="mysql" value="DOUBLE"/>
+    <property name="boolean.type" dbms="mysql" value="BOOLEAN"/>
+    <property name="blob.type" dbms="mysql" value="LONGBLOB"/>
+    <property name="longtext.type" dbms="mysql" value="LONGTEXT"/>
+    <property name="text.type" dbms="mysql" value="TEXT"/>
+    <property name="id.type" dbms="mysql" value="BIGINT"/>
+
+    <!-- Migrations -->
+    <include file="liquibase/V202206022344-create-table-messages.xml"/>
+    <include file="liquibase/V202206022345-insert-into-messages.xml"/>
+
+</databaseChangeLog>

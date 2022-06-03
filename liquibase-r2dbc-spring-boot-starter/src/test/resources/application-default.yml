@@ -1,0 +1,5 @@
+spring:
+  r2dbc:
+    url: 'will be defined by test containers automatically'
+    username: 'will be defined by test containers automatically'
+    password: 'will be defined by test containers automatically'

@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  daggerok.liquibaser2dbc.LiquibaseR2dbcAutoConfiguration

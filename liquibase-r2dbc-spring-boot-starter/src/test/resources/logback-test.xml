@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-7.7level{7}) %magenta(%-5.5thread{5}) [ %cyan(%-30.30logger{30}) ] - %highlight(%msg%n)</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <!-- daggerok: trace -->
+    <logger name="daggerok.liquibaser2dbc" level="trace" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <!-- io.netty.resolver.dns.DnsServerAddressStreamProviders: disable -->
+    <logger name="io.netty.resolver.dns.DnsServerAddressStreamProviders" level="off" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+    <!-- default: info -->
+    <root level="info">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
