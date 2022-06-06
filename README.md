@@ -1,5 +1,5 @@
 # Liquibase R2DBC MySQL Spring Boot starter [![tests](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml/badge.svg)](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml)
-This repository demonstrates how 2 implement Liquibase R2DBC (MySQL) Spring Boot starter to be used in reactive projects
+This repository demonstrates how 2 implement Liquibase R2DBC Spring Boot starter to be used in reactive projects with MySQL or Postgres
 
 ### Getting started
 
@@ -7,7 +7,7 @@ This repository demonstrates how 2 implement Liquibase R2DBC (MySQL) Spring Boot
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
 </dependency>
 ```
 
@@ -28,7 +28,7 @@ This repository demonstrates how 2 implement Liquibase R2DBC (MySQL) Spring Boot
 ./mvnw clean ; ./mvnw verify
 ```
 
-### Integration test
+### Integration test (MySQL)
 
 ```bash
 if [[ "" != `docker ps -aq` ]] ; then docker rm -f -v `docker ps -aq` ; fi
@@ -46,7 +46,7 @@ while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 
 rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
-./mvnw -f liquibase-r2dbc-spring-boot-starter-example spring-boot:start
+./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:start
 
 http :8080
 http :8080/api
@@ -54,8 +54,36 @@ http :8080/api/messages
 http :8080/api/messages body=hey
 http :8080/api/messages
 
-./mvnw -f liquibase-r2dbc-spring-boot-starter-example spring-boot:stop
+./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:stop
 docker stop mysql
+```
+
+### Integration test (Postgresql)
+
+```bash
+if [[ "" != `docker ps -aq` ]] ; then docker rm -f -v `docker ps -aq` ; fi
+
+docker run -d --rm --name postgres -p 5432:5432 --platform=linux/x86_64 \
+  -e POSTGRES_PASSWORD=password -e POSTGRES_DB=database -e POSTGRES_USER=user \
+  --health-start-period=1s --health-retries=1111 --health-interval=1s --health-timeout=5s \
+  --health-cmd='pg_isready -h 127.0.0.1 -p 5432 -d $POSTGRES_DB -U $POSTGRES_USER || exit 1' \
+  postgres:14.3-alpine3.16
+
+while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do sleep 3 ; echo -n '.' ; done ; sleep 15; echo 'Postgres is ready.'
+
+rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc* 
+./mvnw clean install -DskipTests
+
+./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:start
+
+http :8080
+http :8080/api
+http :8080/api/messages
+http :8080/api/messages body=hey
+http :8080/api/messages
+
+./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:stop
+docker stop postgres
 ```
 
 <!--
@@ -167,6 +195,7 @@ Useful links:
 * https://help.sonatype.com/repomanager2/staging-releases/configuring-your-project-for-deployment
 * https://central.sonatype.org/publish/publish-maven/#gpg-signed-components
 * https://v2.vuepress.vuejs.org/guide/getting-started.html
+* https://github.com/actions/setup-java
 
 For further reference, please consider the following sections:
 
