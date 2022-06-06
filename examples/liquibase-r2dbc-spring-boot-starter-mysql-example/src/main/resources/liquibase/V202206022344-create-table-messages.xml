@@ -2,13 +2,8 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd
-		                    http://www.liquibase.org/xml/ns/dbchangelog-ext
-		                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-		                    http://www.liquibase.org/xml/ns/pro https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.9.xsd">
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
     <changeSet id="V202206022344" author="Maksim Kostromin">
         <comment>Create `messages` table and `messages_sent_at_idx` index with rollback</comment>

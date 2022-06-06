@@ -1,4 +1,4 @@
-# Liquibase R2DBC MySQL Spring Boot starter [![tests](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml/badge.svg)](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml)
+# Liquibase R2DBC Spring Boot starter [![tests](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml/badge.svg)](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml)
 This repository demonstrates how 2 implement Liquibase R2DBC Spring Boot starter to be used in reactive projects with MySQL or Postgres
 
 ### Getting started
@@ -7,8 +7,14 @@ This repository demonstrates how 2 implement Liquibase R2DBC Spring Boot starter
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
 </dependency>
+```
+
+or
+
+```kotlin
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.2")
 ```
 
 ### Technology Stack
@@ -41,7 +47,11 @@ docker run -d --rm --name mysql --platform=linux/x86_64 \
   -p 3306:3306 \
   mysql:8.0.24
 
-while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do sleep 3 ; echo -n '.' ; done ; sleep 15; echo 'MySQL is ready.'
+while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do
+  sleep 3 ; echo -n '.'
+done
+
+sleep 15; echo 'MySQL is ready.'
 
 rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
@@ -69,7 +79,9 @@ docker run -d --rm --name postgres -p 5432:5432 --platform=linux/x86_64 \
   --health-cmd='pg_isready -h 127.0.0.1 -p 5432 -d $POSTGRES_DB -U $POSTGRES_USER || exit 1' \
   postgres:14.3-alpine3.16
 
-while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do sleep 3 ; echo -n '.' ; done ; sleep 15; echo 'Postgres is ready.'
+while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do
+  sleep 3 ; echo -n '.'
+done
 
 rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc* 
 ./mvnw clean install -DskipTests

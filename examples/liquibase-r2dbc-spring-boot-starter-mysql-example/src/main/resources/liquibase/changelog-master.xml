@@ -2,13 +2,8 @@
 <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
-        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd
-		                    http://www.liquibase.org/xml/ns/dbchangelog-ext
-		                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-		                    http://www.liquibase.org/xml/ns/pro https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.9.xsd">
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
     <!-- MySQL data types -->
     <property name="current.timestamp.function" dbms="mysql" value="CURRENT_TIMESTAMP"/>
@@ -26,7 +21,7 @@
     <property name="id.type" dbms="mysql" value="BIGINT"/>
 
     <!-- Migrations -->
-    <include file="liquibase/V202206022344-create-table-messages.xml"/>
-    <include file="liquibase/V202206022345-insert-into-messages.xml"/>
+    <include file="classpath*:/liquibase/V202206022344-create-table-messages.xml"/>
+    <include file="classpath*:/liquibase/V202206022345-insert-into-messages.xml"/>
 
 </databaseChangeLog>

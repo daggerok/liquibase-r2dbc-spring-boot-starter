@@ -1,8 +1,128 @@
-# Hello
-## World
+# Liquibase with Spring Boot R2DBC
+This library can help you use good old liquibase database migration within reactive spring-boot R2DBC projects
 
-Yes!
+[[toc]]
 
----
-Regards,
-Maksim
+## Install
+
+Update maven `pom.xml` file:
+
+```xml
+<dependency>
+    <groupId>io.github.daggerok</groupId>
+    <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
+    <version>1.0.2</version>
+</dependency>
+```
+
+Update gradle `build.gradle(.kts)` file:
+
+```kotlin
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.2")
+```
+
+## Configure
+
+Update `src/main/resources/application.yml` file:
+
+```yaml
+spring:
+  r2dbc:
+    url: 'r2dbc:mysql://127.0.0.1:3306/database'
+    username: 'user'
+    password: 'password'
+  liquibase:
+    change-log: classpath*:/liquibase/changelog-master.xml
+```
+
+## Add liquibase migrations
+
+Create `src/main/resources/db/changelog/db.changelog-master.xml` file with for example next content:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd
+		                    http://www.liquibase.org/xml/ns/dbchangelog-ext
+		                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		                    http://www.liquibase.org/xml/ns/pro https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.9.xsd">
+
+    <!-- MySQL data types -->
+    <property name="current.timestamp.function" dbms="mysql" value="CURRENT_TIMESTAMP"/>
+    <property name="timestamp.type" dbms="mysql" value="TIMESTAMP"/>
+    <property name="long.datetime.type" dbms="mysql" value="DATETIME(6)"/>
+    <property name="datetime.type" dbms="mysql" value="DATETIME"/>
+    <property name="date.type" dbms="mysql" value="DATE"/>
+    <property name="time.type" dbms="mysql" value="TIME"/>
+    <property name="decimal.type" dbms="mysql" value="DECIMAL(19,8)"/>
+    <property name="double.type" dbms="mysql" value="DOUBLE"/>
+    <property name="boolean.type" dbms="mysql" value="BOOLEAN"/>
+    <property name="blob.type" dbms="mysql" value="LONGBLOB"/>
+    <property name="longtext.type" dbms="mysql" value="LONGTEXT"/>
+    <property name="text.type" dbms="mysql" value="TEXT"/>
+    <property name="id.type" dbms="mysql" value="BIGINT"/>
+
+    <!-- Migrations -->
+    <include file="classpath*:/db/changelog/V202206022344-create-table-messages.xml"/>
+    <include file="classpath*:/db/changelog/V202206022345-insert-into-messages.xml"/>
+
+</databaseChangeLog>
+```
+
+And finally add migrations files: `src/main/resources/db/changelog/V202206022344-create-table-messages.xml` and
+`src/main/resources/db/changelog/V202206022345-insert-into-messages.xml`
+
+## Testcontainers
+
+To simplify developer workflow and infrastructure setup, use testcontainers with help of next Abstract test class:
+
+```kotlin
+@Testcontainers
+@SpringBootTest
+abstract class AbstractTestMySQLContainerTest {
+
+    companion object {
+        data class TestMySQLContainer(val image: String = "mysql:8.0.24") : MySQLContainer<TestMySQLContainer>(image)
+
+        @Container
+        val mysqlContainer: TestMySQLContainer = TestMySQLContainer().withDatabaseName("database")
+
+        @JvmStatic
+        @DynamicPropertySource
+        fun properties(registry: DynamicPropertyRegistry) {
+            registry.add("spring.r2dbc.url") { mysqlContainer.jdbcUrl.replaceFirst("jdbc:", "r2dbc:") }
+            registry.add("spring.r2dbc.username", mysqlContainer::getUsername)
+            registry.add("spring.r2dbc.password", mysqlContainer::getPassword)
+        }
+    }
+}
+```
+
+Usage:
+
+```kotlin
+class MysqlApplicationTest(@Autowired val databaseClient: DatabaseClient) : AbstractTestMySQLContainerTest() {
+
+    @Test
+    fun `should test with database client`() {
+        databaseClient.sql { " SELECT 1 AS result ; " }
+            .fetch().one()
+            .test()
+            .consumeNextWith {
+                it.forEach { (column, value) ->
+                    log.info { "$column: $value" }
+                }
+            }
+            .verifyComplete()
+    }
+
+    companion object {
+        val log = logger()
+    }
+}
+```

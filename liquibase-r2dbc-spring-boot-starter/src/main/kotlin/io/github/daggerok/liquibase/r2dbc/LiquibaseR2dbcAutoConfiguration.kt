@@ -74,16 +74,13 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
 
     @Bean
     @ConditionalOnMissingBean
-    fun liquibaseR2dbcDatabaseInitialization(
-        liquibaseR2dbcResourceAccessor: ClassLoaderResourceAccessor,
-        liquibaseR2dbcDatabase: Database,
-    ) =
+    fun liquibaseR2dbcUpdate(liquibaseR2dbcResourceAccessor: ClassLoaderResourceAccessor, liquibaseR2dbcDatabase: Database) =
         ApplicationRunner {
             Liquibase(props.changeLog, liquibaseR2dbcResourceAccessor, liquibaseR2dbcDatabase)
-                .also { log.debug { "liquibaseR2dbcDatabaseInitialization bean refers to: $it" } }
+                .also { log.debug { "liquibaseR2dbcUpdate bean refers to: $it" } }
                 .use {
                     it.update(Contexts(), LabelExpression(), true)
-                    log.debug { "R2DBC liquibase database initialized by ${it.changeLogFile}" }
+                    log.info { "R2DBC liquibase update ${it.changeLogFile} completed" }
                 }
         }
 
