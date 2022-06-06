@@ -10,13 +10,14 @@
     </parent>
     <modules>
         <module>liquibase-r2dbc-spring-boot-starter</module>
-        <module>liquibase-r2dbc-spring-boot-starter-example</module>
+        <module>examples/liquibase-r2dbc-spring-boot-starter-mysql-example</module>
+        <module>examples/liquibase-r2dbc-spring-boot-starter-postgres-example</module>
     </modules>
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.daggerok</groupId>
     <artifactId>liquibase-r2dbc-spring-boot-starter-parent</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>1.0.0-SNAPSHOT</version>
     <name>${project.artifactId}</name>
     <description>The liquibase-r2dbc-spring-boot-starter maven parent project</description>
     <url>https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter</url>
@@ -49,23 +50,17 @@
     </scm>
     <properties>
         <gpg.skip>true</gpg.skip>
-        <java.version>11</java.version>
         <kotlin.version>1.6.21</kotlin.version>
-        <HikariCP.version>5.0.1</HikariCP.version>
-        <liquibase.version>4.10.0</liquibase.version>
         <spring-boot.version>2.7.0</spring-boot.version>
         <testcontainers.version>1.17.2</testcontainers.version>
         <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
         <log4j-api-kotlin.version>1.1.0</log4j-api-kotlin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
         <webjars.npm.mvp.css.version>1.8.0</webjars.npm.mvp.css.version>
+        <javax.activation-api.version>1.2.0</javax.activation-api.version>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>io.projectreactor.kotlin</groupId>
-            <artifactId>reactor-kotlin-extensions</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
@@ -75,13 +70,21 @@
             <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains.kotlinx</groupId>
-            <artifactId>kotlinx-coroutines-reactor</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api-kotlin</artifactId>
             <version>${log4j-api-kotlin.version}</version>
+            <optional>true</optional>
+        </dependency>
+        <!--  -->
+        <dependency>
+            <groupId>io.projectreactor.kotlin</groupId>
+            <artifactId>reactor-kotlin-extensions</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-reactor</artifactId>
+            <optional>true</optional>
         </dependency>
         <!--  -->
         <dependency>
@@ -115,6 +118,11 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mysql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

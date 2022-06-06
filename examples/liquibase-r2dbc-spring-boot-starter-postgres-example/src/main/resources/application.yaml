@@ -1,0 +1,15 @@
+spring:
+  output:
+    ansi:
+      enabled: always
+  r2dbc:
+    url: 'r2dbc:postgresql://127.0.0.1:5432/database'
+    username: 'user'
+    password: 'password'
+  liquibase:
+    change-log: classpath*:/liquibase/changelog-master.xml
+server:
+  port: 8080
+logging:
+  level:
+    io.netty.resolver.dns.DnsServerAddressStreamProviders: off

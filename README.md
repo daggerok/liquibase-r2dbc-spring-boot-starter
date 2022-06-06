@@ -7,7 +7,7 @@ This repository demonstrates how 2 implement Liquibase R2DBC (MySQL) Spring Boot
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>0.0.4</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
@@ -18,6 +18,7 @@ This repository demonstrates how 2 implement Liquibase R2DBC (MySQL) Spring Boot
 * Kotlin
 * Junit Jupiter 5
 * MySQL
+* Postgresql
 * Testcontainers
 * Maven
 

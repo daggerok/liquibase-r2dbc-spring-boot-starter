@@ -5,7 +5,7 @@
     <parent>
         <artifactId>liquibase-r2dbc-spring-boot-starter-parent</artifactId>
         <groupId>io.github.daggerok</groupId>
-        <version>0.0.5-SNAPSHOT</version>
+        <version>1.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -25,25 +25,33 @@
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
-            <version>${liquibase.version}</version>
         </dependency>
-        <!--  -->
         <dependency>
             <groupId>com.zaxxer</groupId>
             <artifactId>HikariCP</artifactId>
-            <version>${HikariCP.version}</version>
-            <scope>runtime</scope>
         </dependency>
+        <!--  -->
         <dependency>
             <groupId>dev.miku</groupId>
             <artifactId>r2dbc-mysql</artifactId>
             <version>${r2dbc-mysql.version}</version>
-            <scope>runtime</scope>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
+            <optional>true</optional>
+        </dependency>
+        <!--  -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>r2dbc-postgresql</artifactId>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 </project>
