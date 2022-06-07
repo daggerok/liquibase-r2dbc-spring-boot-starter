@@ -117,7 +117,7 @@ And finally add `src/main/resources/db/changelog/V202206022344-create-table-mess
 </databaseChangeLog>
 ```
 
-## Testcontainers
+## Test with Testcontainers
 
 To simplify developer workflow and infrastructure setup, use testcontainers with help of next Abstract test class:
 
@@ -166,3 +166,14 @@ class MysqlApplicationTest(@Autowired val databaseClient: DatabaseClient) : Abst
     }
 }
 ```
+
+## Technology Stack
+* Liquibase
+* R2DBC
+* Spring Boot
+* Kotlin
+* Junit Jupiter 5
+* MySQL
+* Postgresql
+* Testcontainers
+* Maven

@@ -1,5 +1,7 @@
-# Liquibase R2DBC Spring Boot starter [![tests](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml/badge.svg)](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml)
-This repository demonstrates how 2 implement Liquibase R2DBC Spring Boot starter to be used in reactive projects with MySQL or Postgres
+# Liquibase R2DBC Spring Boot starter [![tests](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml/badge.svg)](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml) [![pages](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/pages.yaml/badge.svg)](https://daggerok.github.io/liquibase-r2dbc-spring-boot-starter/)
+This repository demonstrates how 2 implement Liquibase R2DBC Spring Boot starter to be used in reactive projects with MySQL or Postgres.
+It's not pure reactive liquibase implementation as you might think, we are simply transforming R2DBC URL into liquibase compatible in a
+little spring-boot starter to apply liquibase migrations update automatically within application runner bean
 
 ### Getting started
 
@@ -17,24 +19,17 @@ or
 dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.3")
 ```
 
-### Technology Stack
-* Liquibase
-* R2DBC
-* Spring Boot
-* Kotlin
-* Junit Jupiter 5
-* MySQL
-* Postgresql
-* Testcontainers
-* Maven
+Checkout [documentation](https://daggerok.github.io/liquibase-r2dbc-spring-boot-starter/) for details
 
-### Build and test
+### Development
+
+#### Build and test
 
 ```bash
 ./mvnw clean ; ./mvnw verify
 ```
 
-### Integration test (MySQL)
+#### Integration test (MySQL)
 
 ```bash
 if [[ "" != `docker ps -aq` ]] ; then docker rm -f -v `docker ps -aq` ; fi
@@ -68,7 +63,7 @@ http :8080/api/messages
 docker stop mysql
 ```
 
-### Integration test (Postgresql)
+#### Integration test (Postgresql)
 
 ```bash
 if [[ "" != `docker ps -aq` ]] ; then docker rm -f -v `docker ps -aq` ; fi
@@ -240,3 +235,14 @@ These additional references should also help you:
 Make sure to include a [R2DBC Driver](https://r2dbc.io/drivers/) to connect to your database.
 
 -->
+
+### Technology Stack
+* Liquibase
+* R2DBC
+* Spring Boot
+* Kotlin
+* Junit Jupiter 5
+* MySQL
+* Postgresql
+* Testcontainers
+* Maven
