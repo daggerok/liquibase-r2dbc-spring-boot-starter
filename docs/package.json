@@ -9,14 +9,18 @@
   },
   "repository": "https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter",
   "scripts": {
-    "dev": "vuepress dev .",
-    "build": "vuepress build .",
-    "pages": "cross-env BASE=/liquibase-r2dbc-spring-boot-starter/ vuepress build ."
+    "dev": "vuepress dev . --clean-temp --clean-cache --port=3000",
+    "build": "vuepress build . --clean-temp --clean-cache --dest=.vuepress/dist",
+    "pages": "cross-env BASE=/liquibase-r2dbc-spring-boot-starter/ vuepress build . --dest=.vuepress/dist",
+    "preserve": "cross-env BASE=/liquibase-r2dbc-spring-boot-starter/ vuepress build . --dest=.vuepress/dist/liquibase-r2dbc-spring-boot-starter",
+    "serve": "serve .vuepress/dist & ( sleep 3 ; open http://127.0.0.1:3000/liquibase-r2dbc-spring-boot-starter/ )",
+    "stop": "killall -9 node"
   },
   "license": "MIT",
   "devDependencies": {
     "@types/node": "17.0.40",
     "cross-env": "7.0.3",
+    "serve": "13.0.2",
     "vuepress": "2.0.0-beta.46",
     "vuepress-theme-default-prefers-color-scheme": "2.0.0"
   }

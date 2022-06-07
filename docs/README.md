@@ -7,18 +7,18 @@ This library can help you use good old liquibase database migration within react
 
 Update maven `pom.xml` file:
 
-```xml
+```xml:no-line-numbers
 <dependency>
     <groupId>io.github.daggerok</groupId>
     <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
 Update gradle `build.gradle(.kts)` file:
 
-```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.2")
+```kotlin:no-line-numbers
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.3")
 ```
 
 ## Configure
@@ -69,19 +69,59 @@ Create `src/main/resources/db/changelog/db.changelog-master.xml` file with for e
 
     <!-- Migrations -->
     <include file="classpath*:/db/changelog/V202206022344-create-table-messages.xml"/>
-    <include file="classpath*:/db/changelog/V202206022345-insert-into-messages.xml"/>
 
 </databaseChangeLog>
 ```
 
-And finally add migrations files: `src/main/resources/db/changelog/V202206022344-create-table-messages.xml` and
-`src/main/resources/db/changelog/V202206022345-insert-into-messages.xml`
+And finally add `src/main/resources/db/changelog/V202206022344-create-table-messages.xml` migration file:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd
+		                    http://www.liquibase.org/xml/ns/dbchangelog-ext
+		                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+		                    http://www.liquibase.org/xml/ns/pro https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.9.xsd">
+
+    <changeSet id="V202206022344" author="Maksim Kostromin">
+        <comment>Create `messages` table and `messages_sent_at_idx` index with rollback</comment>
+
+        <createTable tableName="messages">
+            <column name="body" type="${text.type}"/>
+            <column name="address_to" type="VARCHAR(255)"/>
+            <column name="address_from" type="VARCHAR(255)"/>
+            <column name="sent_at" type="${timestamp.type}" defaultValueComputed="${current.timestamp.function}"/>
+            <column autoIncrement="true" name="id" type="${id.type}">
+                <constraints primaryKey="true" primaryKeyName="messages_pk"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="messages"
+                     indexName="messages_sent_at_idx">
+            <column name="sent_at"/>
+        </createIndex>
+
+        <rollback>
+            <dropIndex tableName="messages"
+                       indexName="messages_sent_at_idx"/>
+
+            <dropTable tableName="messages"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
+```
 
 ## Testcontainers
 
 To simplify developer workflow and infrastructure setup, use testcontainers with help of next Abstract test class:
 
-```kotlin
+```kotlin{14-16}
 @Testcontainers
 @SpringBootTest
 abstract class AbstractTestMySQLContainerTest {

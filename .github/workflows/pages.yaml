@@ -30,7 +30,7 @@ jobs:
           ~/.docker
           ~/.gradle
         key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
-    - run: npm --prefix docs install -E
+    - run: npm --prefix docs install
     - run: npm --prefix docs run pages
     - name: Deploy 🚀 GitHub Pages
       uses: JamesIves/github-pages-deploy-action@v4.3.3

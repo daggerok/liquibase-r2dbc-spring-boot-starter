@@ -7,14 +7,14 @@ This repository demonstrates how 2 implement Liquibase R2DBC Spring Boot starter
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.2")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.3")
 ```
 
 ### Technology Stack
