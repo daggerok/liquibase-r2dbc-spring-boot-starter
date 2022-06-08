@@ -1,6 +1,6 @@
 {
   "name": "liquibase-r2dbc-spring-boot-starter",
-  "version": "1.0.4-SNAPSHOT",
+  "version": "1.0.4",
   "description": "Liquibase R2DBC spring-boot starter",
   "main": "index.js",
   "authors": {
