@@ -7,7 +7,7 @@
         </encoder>
     </appender>
     <!-- daggerok: trace -->
-    <logger name="io.github.daggerok.liquibase.r2dbc" level="trace" additivity="false">
+    <logger name="daggerok.liquibaser2dbc" level="trace" additivity="false">
         <appender-ref ref="CONSOLE"/>
     </logger>
     <logger name="daggerok.sample" level="trace" additivity="false">
