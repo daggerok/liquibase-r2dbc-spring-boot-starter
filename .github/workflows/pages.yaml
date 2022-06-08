@@ -6,7 +6,7 @@ on:
         description: Type m to triggre manual jobs
         required: false
         default: ''
-  pull_request:
+  push:
     tags: [ '*' ]
 env:
   NODE_VERSION: 18.2.0
