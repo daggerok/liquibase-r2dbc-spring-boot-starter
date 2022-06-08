@@ -11,14 +11,14 @@ little spring-boot starter to apply liquibase migrations update automatically wi
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>1.0.7</version>
+  <version>2.0.0-SNAPSHOT</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.7")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.0.0-SNAPSHOT")
 ```
 
 If you want to use `*-SNAPSHOT` version, please make sure you have added snapshot maven repository like so
@@ -26,10 +26,11 @@ If you want to use `*-SNAPSHOT` version, please make sure you have added snapsho
 ```xml
 <repositories>
     <repository>
-        <id>snapshots-repo</id>
+        <id>sonatype-nexus-snapshots</id>
+        <name>Sonatype OSS Snapshot Repository</name>
         <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        <releases><enabled>false</enabled></releases>
         <snapshots><enabled>true</enabled></snapshots>
+        <releases><enabled>false</enabled></releases>
     </repository>
 </repositories>
 ```
@@ -128,8 +129,13 @@ docker stop postgres
 * Spring Boot
 * Kotlin
 * Junit Jupiter 5
+* H2
 * MySQL
+* MariaDB
 * Postgresql
+* MS SQL Server
+* r2dbc-pool
+* r2dbc-proxy
 * Testcontainers
 * Maven
 
@@ -243,6 +249,7 @@ Useful links:
 * https://central.sonatype.org/publish/publish-maven/#gpg-signed-components
 * https://v2.vuepress.vuejs.org/guide/getting-started.html
 * https://github.com/actions/setup-java
+* https://mariadb.com/resources/blog/unblock-your-applications-with-r2dbc-spring-data-and-mariadb/
 
 For further reference, please consider the following sections:
 

@@ -31,10 +31,11 @@ If you want to use `*-SNAPSHOT` version, please make sure you have added snapsho
 ```xml:no-v-pre:no-line-numbers
 <repositories>
     <repository>
-        <id>snapshots-repo</id>
+        <id>sonatype-nexus-snapshots</id>
+        <name>Sonatype OSS Snapshot Repository</name>
         <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        <releases><enabled>false</enabled></releases>
         <snapshots><enabled>true</enabled></snapshots>
+        <releases><enabled>false</enabled></releases>
     </repository>
 </repositories>
 ```

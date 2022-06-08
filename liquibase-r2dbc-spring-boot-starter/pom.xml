@@ -5,7 +5,7 @@
     <parent>
         <artifactId>liquibase-r2dbc-spring-boot-starter-parent</artifactId>
         <groupId>io.github.daggerok</groupId>
-        <version>1.0.8-SNAPSHOT</version>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
@@ -32,6 +32,18 @@
         </dependency>
         <!--  -->
         <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-pool</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--  -->
+        <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-proxy</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--  -->
+        <dependency>
             <groupId>dev.miku</groupId>
             <artifactId>r2dbc-mysql</artifactId>
             <version>${r2dbc-mysql.version}</version>
@@ -44,13 +56,46 @@
         </dependency>
         <!--  -->
         <dependency>
+            <groupId>org.mariadb</groupId>
+            <artifactId>r2dbc-mariadb</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--  -->
+        <dependency>
             <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
+            <artifactId>r2dbc-postgresql</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
-            <artifactId>r2dbc-postgresql</artifactId>
+            <artifactId>postgresql</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--  -->
+        <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-mssql</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <!--  -->
+        <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-h2</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>

@@ -48,9 +48,28 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
         DataSourceBuilder.create()
             .url(
                 when {
-                    listOf(":mysql://", ":postgresql://").any { r2dbcProperties.url.contains(it, ignoreCase = true) } ->
-                        r2dbcProperties.url
+                    // Proxy, see: http://r2dbc.io/r2dbc-proxy/docs/current/docs/html/#setup_connection-factory-discovery_url-based
+                    r2dbcProperties.url.startsWith("r2dbc:proxy:", ignoreCase = true) ->
+                        r2dbcProperties.url.lowercase()
+                            .replaceFirst("r2dbc:proxy:pool:", "jdbc:")
+                            .replaceFirst("r2dbc:proxy:", "jdbc:")
+                    // MySQL, MariaDB, Postgresql, MS SQL Server
+                    listOf("r2dbc:mysql://", "r2dbc:mariadb://", "r2dbc:postgresql://", "r2dbc:mssql://")
+                        .any { r2dbcProperties.url.startsWith(it, ignoreCase = true) } ->
+                        r2dbcProperties.url.lowercase()
+                            .replaceFirst("r2dbc:pool:mssql://", "jdbc:sqlserver://")
+                            .replaceFirst("r2dbc:mssql://", "jdbc:sqlserver://")
                             .replaceFirst("r2dbc:pool:", "jdbc:")
+                            .replaceFirst("r2dbc:", "jdbc:")
+                    // H2, see: https://github.com/r2dbc/r2dbc-h2#getting-started
+                    r2dbcProperties.url.startsWith("r2dbc:h2:mem:///", ignoreCase = true) ->
+                        r2dbcProperties.url.lowercase()
+                            .replaceFirst("r2dbc:h2:mem:///", "jdbc:h2:mem:")
+                    r2dbcProperties.url.startsWith("r2dbc:h2:file///", ignoreCase = true) ->
+                        r2dbcProperties.url.lowercase()
+                            .replaceFirst("r2dbc:h2:file//", "jdbc:h2:file:")
+                    r2dbcProperties.url.startsWith("r2dbc:h2:tcp", ignoreCase = true) ->
+                        r2dbcProperties.url.lowercase()
                             .replaceFirst("r2dbc:", "jdbc:")
                     else -> throw LiquibaseR2dbcNotSupportedException(r2dbcProperties.url)
                 }
@@ -58,7 +77,7 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
             .username(r2dbcProperties.username)
             .password(r2dbcProperties.password)
             .build()
-            .also { log.debug { "liquibaseR2dbcDataSource bean refers to: $it" } }
+            .also { log.debug { "liquibaseR2dbcDataSource bean refers to: $it and ${it.connection.metaData.url} liquibase JDBC URL" } }
 
     @ConditionalOnMissingBean
     @Bean(destroyMethod = "close")
