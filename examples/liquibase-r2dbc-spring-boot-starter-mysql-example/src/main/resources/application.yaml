@@ -9,7 +9,7 @@ spring:
   liquibase:
     change-log: classpath*:/liquibase/changelog-master.xml
 server:
-  port: 8080
+  port: 8001
 logging:
   level:
     io.netty.resolver.dns.DnsServerAddressStreamProviders: off

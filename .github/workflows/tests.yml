@@ -50,9 +50,13 @@ jobs:
           path: |
             ~/.m2
             ~/.npm
+            ~/.node
             ~/.docker
             ~/.gradle
           key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
       - run: sudo apt install -y httpie
       - run: docker pull mysql:8.0.24
       - run: if [[ "" != `docker ps -aq` ]] ; then docker rm -f -v `docker ps -aq` ; fi
@@ -65,14 +69,17 @@ jobs:
             -p 3306:3306 \
             mysql:8.0.24
       - run: while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do sleep 3 ; echo -n '.' ; done ; sleep 15; echo 'MySQL is ready.'
-      - run: rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc*
-      - run: ./mvnw clean install -DskipTests
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:start
-      - run: http --ignore-stdin  get :8080
-      - run: http --ignore-stdin  get :8080/api
-      - run: http --ignore-stdin  get :8080/api/messages
-      - run: http --ignore-stdin post :8080/api/messages body=hey
-      - run: http --ignore-stdin  get :8080/api/messages
+      - run: npm_config_yes=true npx wait-port 3306
+      - run: ./mvnw clean package -DskipTests
+      - run: |
+          rm -rf $GITHUB_WORKSPACE/examples/liquibase-r2dbc-spring-boot-starter-mysql-example/target/{*.jar.original,*-sources.jar}
+          java -jar $GITHUB_WORKSPACE/examples/liquibase-r2dbc-spring-boot-starter-mysql-example/target/*.jar &
+          npm_config_yes=true npx wait-port 8001
+      - run: http --ignore-stdin  get :8001
+      - run: http --ignore-stdin  get :8001/api
+      - run: http --ignore-stdin  get :8001/api/messages
+      - run: http --ignore-stdin post :8001/api/messages body=hey
+      - run: http --ignore-stdin  get :8001/api/messages
       - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:stop
       - run: cd $GITHUB_WORKSPACE ; docker stop mysql
   liquibase-r2dbc-spring-boot-starter-postgres-example:
@@ -95,9 +102,13 @@ jobs:
           path: |
             ~/.m2
             ~/.npm
+            ~/.node
             ~/.docker
             ~/.gradle
           key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
       - run: sudo apt install -y httpie
       - run: docker pull postgres:14.3-alpine3.16
       - run: if [[ "" != `docker ps -aq` ]] ; then docker rm -f -v `docker ps -aq` ; fi
@@ -108,13 +119,15 @@ jobs:
             --health-cmd='pg_isready -h 127.0.0.1 -p 5432 -d $POSTGRES_DB -U $POSTGRES_USER || exit 1' \
             postgres:14.3-alpine3.16
       - run: while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do sleep 3 ; echo -n '.' ; done ; sleep 15; echo 'Postgres is ready.'
-      - run: rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc*
+      - run: npm_config_yes=true npx wait-port 5432
+      - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
       - run: ./mvnw clean install -DskipTests
       - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:start
-      - run: http --ignore-stdin  get :8080
-      - run: http --ignore-stdin  get :8080/api
-      - run: http --ignore-stdin  get :8080/api/messages
-      - run: http --ignore-stdin post :8080/api/messages body=hey
-      - run: http --ignore-stdin  get :8080/api/messages
+      - run: npm_config_yes=true npx wait-port 8002
+      - run: http --ignore-stdin  get :8002
+      - run: http --ignore-stdin  get :8002/api
+      - run: http --ignore-stdin  get :8002/api/messages
+      - run: http --ignore-stdin post :8002/api/messages body=hey
+      - run: http --ignore-stdin  get :8002/api/messages
       - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:stop
       - run: cd $GITHUB_WORKSPACE ; docker stop postgres

@@ -44,29 +44,6 @@ repositories {
 }
 ```
 
-If you want to use `*-SNAPSHOT` version, please make sure you have added snapshot maven repository like so
-
-```xml:no-v-pre:no-line-numbers
-<repositories>
-    <repository>
-        <id>snapshots-repo</id>
-        <url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-        <releases><enabled>false</enabled></releases>
-        <snapshots><enabled>true</enabled></snapshots>
-    </repository>
-</repositories>
-```
-
-or
-
-```java:no-v-pre:no-line-numbers
-repositories {
-    maven {
-        url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
-    }
-}
-```
-
 See: https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/daggerok/
 
 Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/github/daggerok/liquibase-r2dbc-spring-boot-starter/
@@ -105,11 +82,11 @@ rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc*
 
 ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:start
 
-http :8080
-http :8080/api
-http :8080/api/messages
-http :8080/api/messages body=hey
-http :8080/api/messages
+http :8001
+http :8001/api
+http :8001/api/messages
+http :8001/api/messages body=hey
+http :8001/api/messages
 
 ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:stop
 docker stop mysql
@@ -135,11 +112,11 @@ rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc*
 
 ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:start
 
-http :8080
-http :8080/api
-http :8080/api/messages
-http :8080/api/messages body=hey
-http :8080/api/messages
+http :8002
+http :8002/api
+http :8002/api/messages
+http :8002/api/messages body=hey
+http :8002/api/messages
 
 ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:stop
 docker stop postgres
