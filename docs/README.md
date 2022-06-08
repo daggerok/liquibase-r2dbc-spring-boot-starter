@@ -9,8 +9,6 @@ This library can help you use good old liquibase database migration within react
 
 ## Install
 
-{{ $site }}
-
 Update maven `pom.xml` file:
 
 ```xml:no-v-pre:no-line-numbers
