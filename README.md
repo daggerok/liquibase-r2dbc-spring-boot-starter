@@ -11,14 +11,14 @@ little spring-boot starter to apply liquibase migrations update automatically wi
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>1.0.6</version>
+  <version>1.0.7</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.6")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.7")
 ```
 
 If you want to use `*-SNAPSHOT` version, please make sure you have added snapshot maven repository like so
