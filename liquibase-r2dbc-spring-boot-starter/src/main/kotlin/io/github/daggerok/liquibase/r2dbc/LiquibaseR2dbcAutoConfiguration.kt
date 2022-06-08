@@ -65,12 +65,15 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
                     r2dbcProperties.url.startsWith("r2dbc:h2:mem:///", ignoreCase = true) ->
                         r2dbcProperties.url.lowercase()
                             .replaceFirst("r2dbc:h2:mem:///", "jdbc:h2:mem:")
-                    r2dbcProperties.url.startsWith("r2dbc:h2:file///", ignoreCase = true) ->
+                            .apply { "$this;${r2dbcProperties.properties.entries.joinToString(separator = ";") { "${it.key}=${it.value}" }}" }
+                    r2dbcProperties.url.startsWith("r2dbc:h2:file:///", ignoreCase = true) ->
                         r2dbcProperties.url.lowercase()
-                            .replaceFirst("r2dbc:h2:file//", "jdbc:h2:file:")
+                            .replaceFirst("r2dbc:h2:file:///", "jdbc:h2:file:")
+                            .apply { "$this;${r2dbcProperties.properties.entries.joinToString(separator = ";") { "${it.key}=${it.value}" }}" }
                     r2dbcProperties.url.startsWith("r2dbc:h2:tcp", ignoreCase = true) ->
                         r2dbcProperties.url.lowercase()
                             .replaceFirst("r2dbc:", "jdbc:")
+                            .apply { "$this;${r2dbcProperties.properties.entries.joinToString(separator = ";") { "${it.key}=${it.value}" }}" }
                     else -> throw LiquibaseR2dbcNotSupportedException(r2dbcProperties.url)
                 }
             )
