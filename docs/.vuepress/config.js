@@ -1,4 +1,6 @@
-const { description: title } = require('../package.json');
+const localNpmVersionPlugin = require('./plugins/local-npm-version.plugin');
+const { description, version } = require('../package.json');
+const title = `${description} v${version}`
 const base = process.env.BASE || '/';
 
 module.exports = {
@@ -24,4 +26,7 @@ module.exports = {
       },
     },
   },
+  plugins: [
+    localNpmVersionPlugin(),
+  ],
 };

@@ -1,3 +1,6 @@
+---
+---
+
 # Liquibase with Spring Boot R2DBC
 This library can help you use good old liquibase database migration within reactive spring-boot R2DBC projects
 
@@ -5,20 +8,22 @@ This library can help you use good old liquibase database migration within react
 
 ## Install
 
+{{ $site }}
+
 Update maven `pom.xml` file:
 
-```xml:no-line-numbers
+```xml:no-v-pre:no-line-numbers
 <dependency>
     <groupId>io.github.daggerok</groupId>
     <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-    <version>1.0.3</version>
+    <version>{{ $site.version }}</version>
 </dependency>
 ```
 
 Update gradle `build.gradle(.kts)` file:
 
-```kotlin:no-line-numbers
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:1.0.3")
+```java:no-v-pre:no-line-numbers
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:{{ $site.version }}")
 ```
 
 ## Configure
