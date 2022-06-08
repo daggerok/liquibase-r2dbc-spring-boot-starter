@@ -201,12 +201,18 @@ class MysqlApplicationTest(@Autowired val databaseClient: DatabaseClient) : Abst
 ```
 
 ## Technology Stack
+
 * Liquibase
 * R2DBC
 * Spring Boot
 * Kotlin
 * Junit Jupiter 5
+* H2
 * MySQL
+* MariaDB
 * Postgresql
+* MS SQL Server
+* r2dbc-pool
+* r2dbc-proxy
 * Testcontainers
 * Maven

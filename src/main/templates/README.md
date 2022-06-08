@@ -49,9 +49,30 @@ See: https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/dagge
 
 Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/github/daggerok/liquibase-r2dbc-spring-boot-starter/
 
+### Technology Stack
+
+* Liquibase
+* R2DBC
+* Spring Boot
+* Kotlin
+* Junit Jupiter 5
+* H2
+* MySQL
+* MariaDB
+* Postgresql
+* MS SQL Server
+* r2dbc-pool
+* r2dbc-proxy
+* Testcontainers
+* Maven
+
+### Reference documentation
+
 Checkout [documentation](https://daggerok.github.io/liquibase-r2dbc-spring-boot-starter/) for details
 
-### Development
+### Developer guide for contributors
+
+Feel free to contribute! Create a fork or report bug to improve this project
 
 #### Build and test
 
@@ -122,22 +143,6 @@ http :8002/api/messages
 ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:stop
 docker stop postgres
 ```
-
-### Technology Stack
-* Liquibase
-* R2DBC
-* Spring Boot
-* Kotlin
-* Junit Jupiter 5
-* H2
-* MySQL
-* MariaDB
-* Postgresql
-* MS SQL Server
-* r2dbc-pool
-* r2dbc-proxy
-* Testcontainers
-* Maven
 
 <!--
 
