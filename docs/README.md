@@ -2,9 +2,8 @@
 ---
 
 # Liquibase with Spring Boot R2DBC
+ [![Maven Central](https://img.shields.io/maven-central/v/io.github.daggerok/liquibase-r2dbc-spring-boot-starter.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.daggerok%22%20AND%20a:%22liquibase-r2dbc-spring-boot-starter%22)
 This library can help you use good old liquibase database migration within reactive spring-boot R2DBC projects
-
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.daggerok/liquibase-r2dbc-spring-boot-starter.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.daggerok%22%20AND%20a:%22liquibase-r2dbc-spring-boot-starter%22)
 
 [[toc]]
 
@@ -51,9 +50,9 @@ repositories {
 }
 ```
 
-See: https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/daggerok/
+See [s01.oss.sonatype.org](https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/daggerok/) repository
 
-Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/github/daggerok/liquibase-r2dbc-spring-boot-starter/
+Otherwise, use only released version. See [repo1.maven.org](https://repo1.maven.org/maven2/io/github/daggerok/liquibase-r2dbc-spring-boot-starter/) repository
 
 ## Configure
 
