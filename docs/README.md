@@ -216,3 +216,7 @@ class MysqlApplicationTest(@Autowired val databaseClient: DatabaseClient) : Abst
 * r2dbc-proxy
 * Testcontainers
 * Maven
+
+## Contributing
+
+Feel free to [contribute](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter#developer-guide-for-contributors)!
