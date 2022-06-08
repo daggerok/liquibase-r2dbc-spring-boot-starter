@@ -72,7 +72,7 @@ jobs:
       - run: npm_config_yes=true npx wait-port 3306
       - run: ./mvnw clean package -DskipTests
       - run: |
-          rm -rf $GITHUB_WORKSPACE/examples/liquibase-r2dbc-spring-boot-starter-mysql-example/target/{*.jar.original,*-sources.jar}
+          rm -rfv $GITHUB_WORKSPACE/examples/liquibase-r2dbc-spring-boot-starter-mysql-example/target/{*.jar.original,*-sources.jar}
           java -jar $GITHUB_WORKSPACE/examples/liquibase-r2dbc-spring-boot-starter-mysql-example/target/*.jar &
           npm_config_yes=true npx wait-port 8001
       - run: http --ignore-stdin  get :8001
