@@ -201,37 +201,6 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>com.github.eirslett</groupId>
-                <artifactId>frontend-maven-plugin</artifactId>
-                <version>${frontend-maven-plugin.version}</version>
-                <configuration>
-                    <!--suppress UnresolvedMavenProperty -->
-                    <installDirectory>${maven.multiModuleProjectDirectory}/target</installDirectory>
-                    <workingDirectory>${maven.multiModuleProjectDirectory}/docs</workingDirectory>
-                    <nodeVersion>${frontend-maven-plugin.nodeVersion}</nodeVersion>
-                    <npmVersion>${frontend-maven-plugin.npmVersion}</npmVersion>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>initialize</phase>
-                        <id>install node and npm</id>
-                        <goals>
-                            <goal>install-node-and-npm</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <phase>initialize</phase>
-                        <id>npm version ${project.version}</id>
-                        <goals>
-                            <goal>npm</goal>
-                        </goals>
-                        <configuration>
-                            <arguments>version ${project.version} --allow-same-version</arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <executions>
@@ -287,6 +256,87 @@
         </plugins>
     </build>
     <profiles>
+        <profile>
+            <id>set-npm-version</id>
+            <activation>
+                <file>
+                    <exists>./docs/package.json</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.eirslett</groupId>
+                        <artifactId>frontend-maven-plugin</artifactId>
+                        <version>${frontend-maven-plugin.version}</version>
+                        <configuration>
+                            <!--suppress UnresolvedMavenProperty -->
+                            <installDirectory>${maven.multiModuleProjectDirectory}/target</installDirectory>
+                            <workingDirectory>${maven.multiModuleProjectDirectory}/docs</workingDirectory>
+                            <nodeVersion>${frontend-maven-plugin.nodeVersion}</nodeVersion>
+                            <npmVersion>${frontend-maven-plugin.npmVersion}</npmVersion>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>initialize</phase>
+                                <id>install node and npm</id>
+                                <goals>
+                                    <goal>install-node-and-npm</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <phase>initialize</phase>
+                                <id>npm version ${project.version}</id>
+                                <goals>
+                                    <goal>npm</goal>
+                                </goals>
+                                <configuration>
+                                    <arguments>version ${project.version} --allow-same-version</arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>template-variables-substitutions</id>
+            <activation>
+                <file>
+                    <exists>./src/main/templates</exists>
+                </file>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>./src/main/templates</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>template-variables-substitutions</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>resources</goal>
+                                </goals>
+                                <configuration>
+                                    <delimiters>
+                                        <delimiter>${*}</delimiter>
+                                    </delimiters>
+                                    <outputDirectory>./</outputDirectory>
+                                    <overwrite>true</overwrite>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
         <profile>
             <id>local-publish</id>
             <!--
