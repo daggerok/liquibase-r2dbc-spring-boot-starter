@@ -85,7 +85,7 @@ Create `src/main/resources/db/changelog/db.changelog-master.xml` file with for e
 		                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
 		                    http://www.liquibase.org/xml/ns/pro https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.9.xsd">
 
-    <!-- MySQL data types -->
+    <!-- MySQL data types: https://xenovation.com/blog/development/java/java-professional-developer/liquibase-related-sql-java-types -->
     <property name="current.timestamp.function" dbms="mysql" value="CURRENT_TIMESTAMP"/>
     <property name="timestamp.type" dbms="mysql" value="TIMESTAMP"/>
     <property name="long.datetime.type" dbms="mysql" value="DATETIME(6)"/>
@@ -207,7 +207,7 @@ class MysqlApplicationTest(@Autowired val databaseClient: DatabaseClient) : Abst
 * Spring Boot
 * Kotlin
 * Junit Jupiter 5
-* H2
+* H2 (file)
 * MySQL
 * MariaDB
 * Postgresql

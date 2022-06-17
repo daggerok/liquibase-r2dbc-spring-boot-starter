@@ -10,6 +10,7 @@
     </parent>
     <modules>
         <module>liquibase-r2dbc-spring-boot-starter</module>
+        <module>examples/liquibase-r2dbc-spring-boot-starter-h2-file-example</module>
         <module>examples/liquibase-r2dbc-spring-boot-starter-mysql-example</module>
         <module>examples/liquibase-r2dbc-spring-boot-starter-postgres-example</module>
     </modules>
@@ -59,8 +60,8 @@
         <webjars.npm.mvp.css.version>1.8.0</webjars.npm.mvp.css.version>
         <javax.activation-api.version>1.2.0</javax.activation-api.version>
         <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
-        <frontend-maven-plugin.npmVersion>8.9.0</frontend-maven-plugin.npmVersion>
-        <frontend-maven-plugin.nodeVersion>v18.2.0</frontend-maven-plugin.nodeVersion>
+        <frontend-maven-plugin.npmVersion>8.12.1</frontend-maven-plugin.npmVersion>
+        <frontend-maven-plugin.nodeVersion>v18.3.0</frontend-maven-plugin.nodeVersion>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
     </properties>
     <dependencies>

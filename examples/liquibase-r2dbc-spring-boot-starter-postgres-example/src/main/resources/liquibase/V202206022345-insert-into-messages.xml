@@ -12,18 +12,18 @@
         <comment>Insert test data into `messages` table with rollback</comment>
 
         <insert tableName="messages">
-            <column name="id" value="2"/>
+            <column name="id" value="-1"/>
             <column name="body" value="Hello, all!"/>
         </insert>
 
         <insert tableName="messages">
-            <column name="id" value="3"/>
+            <column name="id" value="0"/>
             <column name="body" value="Hello, World!"/>
         </insert>
 
         <rollback>
             <delete tableName="messages">
-                <where>id in (0, 1)</where>
+                <where>id in (-1, 0)</where>
             </delete>
         </rollback>
     </changeSet>

@@ -9,7 +9,7 @@ on:
   push:
     tags: [ '*' ]
 env:
-  NODE_VERSION: 18.2.0
+  NODE_VERSION: 18.3.0
 jobs:
   pages:
     if: github.event.inputs.trigger == ''

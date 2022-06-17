@@ -8,7 +8,7 @@
 		                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
 		                    http://www.liquibase.org/xml/ns/pro https://www.liquibase.org/xml/ns/pro/liquibase-pro-4.9.xsd">
 
-    <!-- Postgresql data types -->
+    <!-- Postgresql data types: https://xenovation.com/blog/development/java/java-professional-developer/liquibase-related-sql-java-types -->
     <property name="current.timestamp.function" dbms="postgresql" value="CURRENT_TIMESTAMP"/>
     <property name="timestamp.type" dbms="postgresql" value="TIMESTAMP"/>
     <property name="long.datetime.type" dbms="postgresql" value="DATETIME(6)"/>

@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                             https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
 
-    <!-- MySQL data types -->
+    <!-- MySQL data types: https://xenovation.com/blog/development/java/java-professional-developer/liquibase-related-sql-java-types -->
     <property name="current.timestamp.function" dbms="mysql" value="CURRENT_TIMESTAMP"/>
     <property name="timestamp.type" dbms="mysql" value="TIMESTAMP"/>
     <property name="long.datetime.type" dbms="mysql" value="DATETIME(6)"/>

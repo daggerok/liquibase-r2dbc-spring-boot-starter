@@ -12,14 +12,14 @@ automatically within application runner bean
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>2.0.1</version>
+  <version>2.0.2-SNAPSHOT</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.0.1")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.0.2-SNAPSHOT")
 ```
 
 If you want to use `*-SNAPSHOT` version, please make sure you have added snapshot maven repository like so
@@ -57,7 +57,7 @@ Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/git
 * Spring Boot
 * Kotlin
 * Junit Jupiter 5
-* H2
+* H2 (file)
 * MySQL
 * MariaDB
 * Postgresql
@@ -143,6 +143,23 @@ http :8002/api/messages
 
 ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:stop
 docker stop postgres
+```
+
+#### Integration test (H2 file)
+
+```bash
+rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc* 
+./mvnw clean install -DskipTests
+
+./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:start
+
+http :8003
+http :8003/api
+http :8003/api/messages
+http :8003/api/messages body=hey
+http :8003/api/messages
+
+./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:stop
 ```
 
 <!--
@@ -256,6 +273,9 @@ Useful links:
 * https://v2.vuepress.vuejs.org/guide/getting-started.html
 * https://github.com/actions/setup-java
 * https://mariadb.com/resources/blog/unblock-your-applications-with-r2dbc-spring-data-and-mariadb/
+* https://xenovation.com/blog/development/java/java-professional-developer/liquibase-related-sql-java-types
+* https://github.com/r2dbc/r2dbc-h2
+* https://www.youtube.com/watch?v=7rTs3e79sDo
 
 For further reference, please consider the following sections:
 
