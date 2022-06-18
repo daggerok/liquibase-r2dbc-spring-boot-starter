@@ -57,7 +57,7 @@ Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/git
 * Spring Boot
 * Kotlin
 * Junit Jupiter 5
-* H2 (file)
+* H2 (file, mem)
 * MySQL
 * MariaDB
 * Postgresql
@@ -100,7 +100,7 @@ done
 
 sleep 15; echo 'MySQL is ready.'
 
-rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc* 
+rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
 ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:start
@@ -130,7 +130,7 @@ while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 
   sleep 3 ; echo -n '.'
 done
 
-rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc* 
+rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
 ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:start
@@ -148,7 +148,7 @@ docker stop postgres
 #### Integration test (H2 file)
 
 ```bash
-rm -rf ~/.m2/repository/daggerok//liquibase/r2dbc* 
+rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
 ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:start
@@ -160,6 +160,23 @@ http :8003/api/messages body=hey
 http :8003/api/messages
 
 ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:stop
+```
+
+#### Integration test (H2 mem)
+
+```bash
+rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
+./mvnw clean install -DskipTests
+
+./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example spring-boot:start
+
+http :8004
+http :8004/api
+http :8004/api/messages
+http :8004/api/messages body=hey
+http :8004/api/messages
+
+./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example spring-boot:stop
 ```
 
 <!--

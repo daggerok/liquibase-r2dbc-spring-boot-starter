@@ -3,19 +3,17 @@ spring:
     ansi:
       enabled: always
   r2dbc:
-    url: 'r2dbc:h2:file:///./target/h2database'
+    url: 'r2dbc:h2:mem:///h2database'
     username: 'h2user'
     password: 'h2password'
     properties:
-      Mode: MySQL
-      AUTO_SERVER: TRUE
-      AUTO_RECONNECT: TRUE
+      Mode: PostgreSQL
       MULTI_THREADED: TRUE
-      DB_CLOSE_ON_EXIT: TRUE
+      DB_CLOSE_ON_EXIT: FALSE
   liquibase:
     change-log: classpath*:/liquibase/changelog-master.xml
 server:
-  port: 8003
+  port: 8004
 logging:
   level:
     io.netty.resolver.dns.DnsServerAddressStreamProviders: off

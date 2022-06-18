@@ -207,7 +207,7 @@ class MysqlApplicationTest(@Autowired val databaseClient: DatabaseClient) : Abst
 * Spring Boot
 * Kotlin
 * Junit Jupiter 5
-* H2 (file)
+* H2 (file, mem)
 * MySQL
 * MariaDB
 * Postgresql
