@@ -11,6 +11,7 @@
     <modules>
         <module>liquibase-r2dbc-spring-boot-starter</module>
         <module>examples/liquibase-r2dbc-spring-boot-starter-h2-file-example</module>
+        <module>examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example</module>
         <module>examples/liquibase-r2dbc-spring-boot-starter-mysql-example</module>
         <module>examples/liquibase-r2dbc-spring-boot-starter-postgres-example</module>
     </modules>

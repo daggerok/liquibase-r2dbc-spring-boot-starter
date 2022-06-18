@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Reactive Thymeleaf Error</title>
+  <link rel="shortcut icon" data-th-href="@{/favicon.ico}" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" data-th-href="@{/webjars/mvp.css/1.8.0/mvp.css}" href="/webjars/mvp.css/1.8.0/mvp.css">
+  <!-- <link rel="stylesheet" href="https://unpkg.com/mvp.css"> -->
+</head>
+<body>
+
+<h1>Reactive Thymeleaf Error</h1>
+<div>
+  <span data-th-if="${error}">[[ ${error} ]]</span>:
+  <span data-th-if="${message}">[[ ${message} ]]</span>
+</div>
+
+<div>
+  <span data-th-if="${exception}">Exception [[ ${exception} ]]</span>
+  <span data-th-if="${timestamp}">Occurred at: [[ ${timestamp} ]]</span>
+  <span data-th-if="${path}">on path: [[ ${path} ]]</span>
+</div>
+
+<div data-th-if="${api}">Available APIs:
+  <div data-th-each="entry: ${api}">
+    <a data-th-href="@{ ${entry.value} }">[[ ${entry.key} ]]</a>
+  </div>
+</div>
+
+</body>
+</html>
