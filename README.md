@@ -12,14 +12,14 @@ automatically within application runner bean
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>2.0.3</version>
+  <version>2.0.4-SNAPSHOT</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.0.3")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.0.4-SNAPSHOT")
 ```
 
 If you want to use `*-SNAPSHOT` version, please make sure you have added snapshot maven repository like so
@@ -62,8 +62,7 @@ Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/git
 * MariaDB
 * Postgresql
 * MS SQL Server
-* r2dbc-pool
-* r2dbc-proxy
+* R2DBC (pool, proxy)
 * Testcontainers
 * Maven
 
@@ -103,7 +102,7 @@ sleep 15; echo 'MySQL is ready.'
 rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:start
+./mvnw -f examples/mysql spring-boot:start
 
 http :8001
 http :8001/api
@@ -111,7 +110,7 @@ http :8001/api/messages
 http :8001/api/messages body=hey
 http :8001/api/messages
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:stop
+./mvnw -f examples/mysql spring-boot:stop
 docker stop mysql
 ```
 
@@ -133,7 +132,7 @@ done
 rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:start
+./mvnw -f examples/postgresql spring-boot:start
 
 http :8002
 http :8002/api
@@ -141,7 +140,7 @@ http :8002/api/messages
 http :8002/api/messages body=hey
 http :8002/api/messages
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:stop
+./mvnw -f examples/postgresql spring-boot:stop
 docker stop postgres
 ```
 
@@ -151,7 +150,7 @@ docker stop postgres
 rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:start
+./mvnw -f examples/h2/file spring-boot:start
 
 http :8003
 http :8003/api
@@ -159,7 +158,7 @@ http :8003/api/messages
 http :8003/api/messages body=hey
 http :8003/api/messages
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:stop
+./mvnw -f examples/h2/file spring-boot:stop
 ```
 
 #### Integration test (H2 mem)
@@ -168,7 +167,7 @@ http :8003/api/messages
 rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example spring-boot:start
+./mvnw -f examples/h2/mem spring-boot:start
 
 http :8004
 http :8004/api
@@ -176,7 +175,37 @@ http :8004/api/messages
 http :8004/api/messages body=hey
 http :8004/api/messages
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example spring-boot:stop
+./mvnw -f examples/h2/mem spring-boot:stop
+```
+
+#### Integration test (H2 tcp file)
+
+```bash
+if [[ "" != `docker ps -aq` ]] ; then docker rm -f -v `docker ps -aq` ; fi
+
+docker run -p 3306:3306 -d --rm --name mariadb --platform=linux/x86_64 \
+  --env MARIADB_USER=user --env MARIADB_PASSWORD=password --env MARIADB_ROOT_PASSWORD=password --env MARIADB_DATABASE=database \
+  --health-cmd='mysqladmin ping -h 127.0.0.1 -u $MARIADB_USER --password=$MARIADB_PASSWORD || exit 1' \
+  --health-start-period=1s --health-retries=1111 --health-interval=1s --health-timeout=5s \
+  mariadb:10.7.4
+
+while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do
+  sleep 3 ; echo -n '.'
+done
+echo 'MariaDB is ready.'
+
+rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
+./mvnw clean install -DskipTests
+
+./mvnw -f examples/mariadb spring-boot:start
+
+http :8005
+http :8005/api
+http :8005/api/messages
+http :8005/api/messages body=hey
+http :8005/api/messages
+
+./mvnw -f examples/mariadb spring-boot:stop
 ```
 
 <!--
@@ -293,6 +322,9 @@ Useful links:
 * https://xenovation.com/blog/development/java/java-professional-developer/liquibase-related-sql-java-types
 * https://github.com/r2dbc/r2dbc-h2
 * https://www.youtube.com/watch?v=7rTs3e79sDo
+* https://mariadb.com/docs/connect/programming-languages/java-r2dbc/spring/
+* https://hub.docker.com/_/mariadb
+* https://stackoverflow.com/questions/68069403/r2dbc-illegalargumentexception-cannot-encode-parameter-of-type-java-util-date/71917628#71917628
 
 For further reference, please consider the following sections:
 

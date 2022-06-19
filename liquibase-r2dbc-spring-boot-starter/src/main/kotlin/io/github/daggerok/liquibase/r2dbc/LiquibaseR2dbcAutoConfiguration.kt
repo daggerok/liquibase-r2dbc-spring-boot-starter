@@ -54,7 +54,8 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
                             .replaceFirst("r2dbc:proxy:pool:", "jdbc:")
                             .replaceFirst("r2dbc:proxy:", "jdbc:")
                     // MySQL, MariaDB, Postgresql, MS SQL Server
-                    listOf("r2dbc:mysql://", "r2dbc:mariadb://", "r2dbc:postgresql://", "r2dbc:mssql://")
+                    listOf("r2dbc:mysql://", "r2dbc:mariadb://", "r2dbc:postgresql://", "r2dbc:mssql://",
+                        "r2dbc:pool:mysql://", "r2dbc:pool:mariadb://", "r2dbc:pool:postgresql://", "r2dbc:pool:mssql://")
                         .any { r2dbcProperties.url.startsWith(it, ignoreCase = true) } ->
                         r2dbcProperties.url.lowercase()
                             .replaceFirst("r2dbc:pool:mssql://", "jdbc:sqlserver://")
