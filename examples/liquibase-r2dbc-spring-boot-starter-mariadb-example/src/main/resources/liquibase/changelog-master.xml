@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <!-- MySQL data types: https://xenovation.com/blog/development/java/java-professional-developer/liquibase-related-sql-java-types -->
+    <property name="current.timestamp.function" dbms="mariadb" value="CURRENT_TIMESTAMP"/>
+    <property name="timestamp.type" dbms="mariadb" value="TIMESTAMP"/>
+    <property name="long.datetime.type" dbms="mariadb" value="DATETIME(6)"/>
+    <property name="datetime.type" dbms="mariadb" value="DATETIME"/>
+    <property name="date.type" dbms="mariadb" value="DATE"/>
+    <property name="time.type" dbms="mariadb" value="TIME"/>
+    <property name="decimal.type" dbms="mariadb" value="DECIMAL(19,8)"/>
+    <property name="double.type" dbms="mariadb" value="DOUBLE"/>
+    <property name="boolean.type" dbms="mariadb" value="BOOLEAN"/>
+    <property name="blob.type" dbms="mariadb" value="LONGBLOB"/>
+    <property name="longtext.type" dbms="mariadb" value="LONGTEXT"/>
+    <property name="text.type" dbms="mariadb" value="TEXT"/>
+    <property name="id.type" dbms="mariadb" value="BIGINT"/>
+
+    <!-- Migrations -->
+    <include file="classpath*:/liquibase/V202206022344-create-table-messages.xml"/>
+    <include file="classpath*:/liquibase/V202206022345-insert-into-messages.xml"/>
+
+</databaseChangeLog>

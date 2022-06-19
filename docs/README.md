@@ -212,8 +212,7 @@ class MysqlApplicationTest(@Autowired val databaseClient: DatabaseClient) : Abst
 * MariaDB
 * Postgresql
 * MS SQL Server
-* r2dbc-pool
-* r2dbc-proxy
+* R2DBC (pool, proxy)
 * Testcontainers
 * Maven
 

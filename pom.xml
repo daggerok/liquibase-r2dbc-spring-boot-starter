@@ -12,6 +12,7 @@
         <module>liquibase-r2dbc-spring-boot-starter</module>
         <module>examples/liquibase-r2dbc-spring-boot-starter-h2-file-example</module>
         <module>examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example</module>
+        <module>examples/liquibase-r2dbc-spring-boot-starter-mariadb-example</module>
         <module>examples/liquibase-r2dbc-spring-boot-starter-mysql-example</module>
         <module>examples/liquibase-r2dbc-spring-boot-starter-postgres-example</module>
     </modules>
@@ -123,6 +124,11 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>mysql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mariadb</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

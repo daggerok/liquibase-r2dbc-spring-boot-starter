@@ -1,13 +1,12 @@
 name: tests
 on:
   push:
-    branches:
-      - '*'
+    branches: ['*']
 env:
   NODE_VERSION: 18.3.0
 jobs:
   tests:
-    name: unit tests java-${{ matrix.java }}
+    name: java-${{ matrix.java }} unit tests
     if: github.event.inputs.trigger == ''
       || !startsWith(github.event.inputs.trigger, 'm')
       || !startsWith(github.event.inputs.trigger, 'M')
@@ -32,8 +31,122 @@ jobs:
           key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
       - run: if [[ "" != `docker ps -aq` ]] ; then docker rm -f -v `docker ps -aq` ; fi
       - run: cd $GITHUB_WORKSPACE ; ./mvnw
+  liquibase-r2dbc-spring-boot-starter-mariadb-example:
+    name: java-${{ matrix.java }} mariadb-example integration tests
+    if: github.event.inputs.trigger == ''
+      || !startsWith(github.event.inputs.trigger, 'm')
+      || !startsWith(github.event.inputs.trigger, 'M')
+    strategy:
+      matrix:
+        java: [8, 11, 17, 18]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2
+            ~/.npm
+            ~/.node
+            ~/.docker
+            ~/.gradle
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: sudo apt install -y httpie
+      - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
+      - run: ./mvnw clean install -DskipTests
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:start
+      - run: npm_config_yes=true npx wait-port 8003
+      - run: http --ignore-stdin  get :8003
+      - run: http --ignore-stdin  get :8003/api
+      - run: http --ignore-stdin  get :8003/api/messages
+      - run: http --ignore-stdin post :8003/api/messages body=hey
+      - run: http --ignore-stdin  get :8003/api/messages
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:stop
+  liquibase-r2dbc-spring-boot-starter-h2-file-example:
+    name: java-${{ matrix.java }} h2 file example integration tests
+    if: github.event.inputs.trigger == ''
+      || !startsWith(github.event.inputs.trigger, 'm')
+      || !startsWith(github.event.inputs.trigger, 'M')
+    strategy:
+      matrix:
+        java: [8, 11, 17, 18]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2
+            ~/.npm
+            ~/.node
+            ~/.docker
+            ~/.gradle
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: sudo apt install -y httpie
+      - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
+      - run: ./mvnw clean install -DskipTests
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:start
+      - run: npm_config_yes=true npx wait-port 8003
+      - run: http --ignore-stdin  get :8003
+      - run: http --ignore-stdin  get :8003/api
+      - run: http --ignore-stdin  get :8003/api/messages
+      - run: http --ignore-stdin post :8003/api/messages body=hey
+      - run: http --ignore-stdin  get :8003/api/messages
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:stop
+  liquibase-r2dbc-spring-boot-starter-h2-mem-example:
+    name: java-${{ matrix.java }} h2 mem integration tests
+    if: github.event.inputs.trigger == ''
+      || !startsWith(github.event.inputs.trigger, 'm')
+      || !startsWith(github.event.inputs.trigger, 'M')
+    strategy:
+      matrix:
+        java: [8, 11, 17, 18]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: ${{ matrix.java }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2
+            ~/.npm
+            ~/.node
+            ~/.docker
+            ~/.gradle
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - run: sudo apt install -y httpie
+      - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
+      - run: ./mvnw clean install -DskipTests
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example spring-boot:start
+      - run: npm_config_yes=true npx wait-port 8004
+      - run: http --ignore-stdin  get :8004
+      - run: http --ignore-stdin  get :8004/api
+      - run: http --ignore-stdin  get :8004/api/messages
+      - run: http --ignore-stdin post :8004/api/messages body=hey
+      - run: http --ignore-stdin  get :8004/api/messages
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example spring-boot:stop
   liquibase-r2dbc-spring-boot-starter-mysql-example:
-    name: liquibase-r2dbc-spring-boot-starter-mysql-example integration tests java-${{ matrix.java }}
+    name: java-${{ matrix.java }} mysql integration tests
     if: github.event.inputs.trigger == ''
       || !startsWith(github.event.inputs.trigger, 'm')
       || !startsWith(github.event.inputs.trigger, 'M')
@@ -85,7 +198,7 @@ jobs:
       - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:stop
       - run: cd $GITHUB_WORKSPACE ; docker stop mysql
   liquibase-r2dbc-spring-boot-starter-postgres-example:
-    name: liquibase-r2dbc-spring-boot-starter-postgres-example integration tests java-${{ matrix.java }}
+    name: java-${{ matrix.java }} postgres integration tests
     if: github.event.inputs.trigger == ''
       || !startsWith(github.event.inputs.trigger, 'm')
       || !startsWith(github.event.inputs.trigger, 'M')
@@ -133,41 +246,3 @@ jobs:
       - run: http --ignore-stdin  get :8002/api/messages
       - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:stop
       - run: cd $GITHUB_WORKSPACE ; docker stop postgres
-  liquibase-r2dbc-spring-boot-starter-h2-file-example:
-    name: liquibase-r2dbc-spring-boot-starter-h2-file-example integration tests java-${{ matrix.java }}
-    if: github.event.inputs.trigger == ''
-      || !startsWith(github.event.inputs.trigger, 'm')
-      || !startsWith(github.event.inputs.trigger, 'M')
-    strategy:
-      matrix:
-        java: [8, 11, 17, 18]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'temurin'
-          java-version: ${{ matrix.java }}
-      - uses: actions/cache@v3
-        with:
-          path: |
-            ~/.m2
-            ~/.npm
-            ~/.node
-            ~/.docker
-            ~/.gradle
-          key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
-      - uses: actions/setup-node@v3
-        with:
-          node-version: ${{ env.NODE_VERSION }}
-      - run: sudo apt install -y httpie
-      - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
-      - run: ./mvnw clean install -DskipTests
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:start
-      - run: npm_config_yes=true npx wait-port 8003
-      - run: http --ignore-stdin  get :8003
-      - run: http --ignore-stdin  get :8003/api
-      - run: http --ignore-stdin  get :8003/api/messages
-      - run: http --ignore-stdin post :8003/api/messages body=hey
-      - run: http --ignore-stdin  get :8003/api/messages
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:stop

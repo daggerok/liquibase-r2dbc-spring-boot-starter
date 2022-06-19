@@ -1,6 +1,7 @@
 package daggerok.sample
 
 import java.time.Instant
+import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.util.TimeZone
@@ -12,7 +13,6 @@ import org.springframework.boot.web.error.ErrorAttributeOptions.Include
 import org.springframework.boot.web.reactive.error.DefaultErrorAttributes
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.r2dbc.config.EnableR2dbcAuditing
@@ -35,10 +35,10 @@ import reactor.core.publisher.Flux
  */
 @EnableR2dbcAuditing
 @SpringBootApplication
-class PostgresApplication
+class MariaDbApplication
 
 fun main(args: Array<String>) {
-    runApplication<PostgresApplication>(*args) {
+    runApplication<MariaDbApplication>(*args) {
         TimeZone.setDefault(TimeZone.getTimeZone(ZoneId.from(ZoneOffset.UTC)))
     }
 }
@@ -49,10 +49,9 @@ data class Message(
     val addressTo: String = "all",
     val addressFrom: String = "anonymous",
     @Id val id: Long? = null,
-    @CreatedDate
     @LastModifiedDate
     @DateTimeFormat(iso = DATE_TIME)
-    val sentAt: Instant? = null,
+    val sentAt: LocalDateTime? = null,
 )
 
 interface Messages : R2dbcRepository<Message, Long> {

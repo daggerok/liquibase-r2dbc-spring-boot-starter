@@ -1,6 +1,9 @@
 package daggerok.sample
 
 import java.time.Instant
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.util.TimeZone
 import org.apache.logging.log4j.kotlin.logger
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -34,7 +37,9 @@ import reactor.core.publisher.Flux
 class H2FileApplication
 
 fun main(args: Array<String>) {
-    runApplication<H2FileApplication>(*args)
+    runApplication<H2FileApplication>(*args) {
+        TimeZone.setDefault(TimeZone.getTimeZone(ZoneId.from(ZoneOffset.UTC)))
+    }
 }
 
 @Table("messages")

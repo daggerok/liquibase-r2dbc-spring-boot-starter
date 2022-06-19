@@ -11,10 +11,9 @@
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
     <groupId>io.github.daggerok.example</groupId>
-    <artifactId>liquibase-r2dbc-spring-boot-starter-h2-mem-example</artifactId>
-    <description>H2 in memory liquibase-r2dbc-spring-boot-starter example</description>
+    <artifactId>liquibase-r2dbc-spring-boot-starter-mariadb-example</artifactId>
+    <description>MariaDB liquibase-r2dbc-spring-boot-starter example</description>
     <dependencies>
-        <!-- Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
@@ -28,26 +27,29 @@
             <artifactId>mvp.css</artifactId>
             <version>${webjars.npm.mvp.css.version}</version>
         </dependency>
-        <!-- R2DBC -->
+        <!--  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-r2dbc</artifactId>
         </dependency>
-        <!-- Liquibase + R2DBC -->
         <dependency>
             <groupId>io.github.daggerok</groupId>
             <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!-- Liquibase + R2DBC: Runtime -->
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb</groupId>
+            <artifactId>r2dbc-mariadb</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>io.r2dbc</groupId>
-            <artifactId>r2dbc-h2</artifactId>
+            <artifactId>r2dbc-pool</artifactId>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
@@ -57,7 +59,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <jmxPort>9004</jmxPort>
+                    <jmxPort>9005</jmxPort>
                 </configuration>
             </plugin>
         </plugins>
