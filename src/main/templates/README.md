@@ -102,7 +102,7 @@ sleep 15; echo 'MySQL is ready.'
 rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:start
+./mvnw -f examples/mysql spring-boot:start
 
 http :8001
 http :8001/api
@@ -110,7 +110,7 @@ http :8001/api/messages
 http :8001/api/messages body=hey
 http :8001/api/messages
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:stop
+./mvnw -f examples/mysql spring-boot:stop
 docker stop mysql
 ```
 
@@ -132,7 +132,7 @@ done
 rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:start
+./mvnw -f examples/postgresql spring-boot:start
 
 http :8002
 http :8002/api
@@ -140,7 +140,7 @@ http :8002/api/messages
 http :8002/api/messages body=hey
 http :8002/api/messages
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:stop
+./mvnw -f examples/postgresql spring-boot:stop
 docker stop postgres
 ```
 
@@ -150,7 +150,7 @@ docker stop postgres
 rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:start
+./mvnw -f examples/h2/file spring-boot:start
 
 http :8003
 http :8003/api
@@ -158,7 +158,7 @@ http :8003/api/messages
 http :8003/api/messages body=hey
 http :8003/api/messages
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:stop
+./mvnw -f examples/h2/file spring-boot:stop
 ```
 
 #### Integration test (H2 mem)
@@ -167,7 +167,7 @@ http :8003/api/messages
 rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example spring-boot:start
+./mvnw -f examples/h2/mem spring-boot:start
 
 http :8004
 http :8004/api
@@ -175,7 +175,7 @@ http :8004/api/messages
 http :8004/api/messages body=hey
 http :8004/api/messages
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example spring-boot:stop
+./mvnw -f examples/h2/mem spring-boot:stop
 ```
 
 #### Integration test (H2 tcp file)
@@ -197,7 +197,7 @@ echo 'MariaDB is ready.'
 rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
 ./mvnw clean install -DskipTests
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mariadb-example spring-boot:start
+./mvnw -f examples/mariadb spring-boot:start
 
 http :8005
 http :8005/api
@@ -205,7 +205,7 @@ http :8005/api/messages
 http :8005/api/messages body=hey
 http :8005/api/messages
 
-./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mariadb-example spring-boot:stop
+./mvnw -f examples/mariadb spring-boot:stop
 ```
 
 <!--

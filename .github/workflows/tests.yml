@@ -1,7 +1,6 @@
 name: tests
 on:
   push:
-    branches: ['*']
 env:
   NODE_VERSION: 18.3.0
 jobs:
@@ -61,14 +60,14 @@ jobs:
       - run: sudo apt install -y httpie
       - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
       - run: ./mvnw clean install -DskipTests
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:start
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/h2/file spring-boot:start
       - run: npm_config_yes=true npx wait-port 8003
       - run: http --ignore-stdin  get :8003
       - run: http --ignore-stdin  get :8003/api
       - run: http --ignore-stdin  get :8003/api/messages
       - run: http --ignore-stdin post :8003/api/messages body=hey
       - run: http --ignore-stdin  get :8003/api/messages
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:stop
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/h2/file spring-boot:stop
   liquibase-r2dbc-spring-boot-starter-h2-file-example:
     name: java-${{ matrix.java }} h2 file example integration tests
     if: github.event.inputs.trigger == ''
@@ -99,14 +98,14 @@ jobs:
       - run: sudo apt install -y httpie
       - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
       - run: ./mvnw clean install -DskipTests
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:start
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/h2/file spring-boot:start
       - run: npm_config_yes=true npx wait-port 8003
       - run: http --ignore-stdin  get :8003
       - run: http --ignore-stdin  get :8003/api
       - run: http --ignore-stdin  get :8003/api/messages
       - run: http --ignore-stdin post :8003/api/messages body=hey
       - run: http --ignore-stdin  get :8003/api/messages
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-file-example spring-boot:stop
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/h2/file spring-boot:stop
   liquibase-r2dbc-spring-boot-starter-h2-mem-example:
     name: java-${{ matrix.java }} h2 mem integration tests
     if: github.event.inputs.trigger == ''
@@ -137,14 +136,14 @@ jobs:
       - run: sudo apt install -y httpie
       - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
       - run: ./mvnw clean install -DskipTests
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example spring-boot:start
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/h2/mem spring-boot:start
       - run: npm_config_yes=true npx wait-port 8004
       - run: http --ignore-stdin  get :8004
       - run: http --ignore-stdin  get :8004/api
       - run: http --ignore-stdin  get :8004/api/messages
       - run: http --ignore-stdin post :8004/api/messages body=hey
       - run: http --ignore-stdin  get :8004/api/messages
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-h2-mem-example spring-boot:stop
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/h2/mem spring-boot:stop
   liquibase-r2dbc-spring-boot-starter-mysql-example:
     name: java-${{ matrix.java }} mysql integration tests
     if: github.event.inputs.trigger == ''
@@ -187,15 +186,15 @@ jobs:
       - run: npm_config_yes=true npx wait-port 3306
       - run: ./mvnw clean package -DskipTests
       - run: |
-          rm -rfv $GITHUB_WORKSPACE/examples/liquibase-r2dbc-spring-boot-starter-mysql-example/target/{*.jar.original,*-sources.jar}
-          java -jar $GITHUB_WORKSPACE/examples/liquibase-r2dbc-spring-boot-starter-mysql-example/target/*.jar &
+          rm -rfv $GITHUB_WORKSPACE/examples/mysql/target/{*.jar.original,*-sources.jar}
+          java -jar $GITHUB_WORKSPACE/examples/mysql/target/*.jar &
           npm_config_yes=true npx wait-port 8001
       - run: http --ignore-stdin  get :8001
       - run: http --ignore-stdin  get :8001/api
       - run: http --ignore-stdin  get :8001/api/messages
       - run: http --ignore-stdin post :8001/api/messages body=hey
       - run: http --ignore-stdin  get :8001/api/messages
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-mysql-example spring-boot:stop
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/mysql spring-boot:stop
       - run: cd $GITHUB_WORKSPACE ; docker stop mysql
   liquibase-r2dbc-spring-boot-starter-postgres-example:
     name: java-${{ matrix.java }} postgres integration tests
@@ -237,12 +236,12 @@ jobs:
       - run: npm_config_yes=true npx wait-port 5432
       - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
       - run: ./mvnw clean install -DskipTests
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:start
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/postgresql spring-boot:start
       - run: npm_config_yes=true npx wait-port 8002
       - run: http --ignore-stdin  get :8002
       - run: http --ignore-stdin  get :8002/api
       - run: http --ignore-stdin  get :8002/api/messages
       - run: http --ignore-stdin post :8002/api/messages body=hey
       - run: http --ignore-stdin  get :8002/api/messages
-      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/liquibase-r2dbc-spring-boot-starter-postgres-example spring-boot:stop
+      - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/postgresql spring-boot:stop
       - run: cd $GITHUB_WORKSPACE ; docker stop postgres

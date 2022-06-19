@@ -6,7 +6,7 @@
         <artifactId>liquibase-r2dbc-spring-boot-starter-parent</artifactId>
         <groupId>io.github.daggerok</groupId>
         <version>2.0.4-SNAPSHOT</version>
-        <relativePath>../../pom.xml</relativePath>
+        <relativePath>../../../pom.xml</relativePath>
     </parent>
     <packaging>jar</packaging>
     <modelVersion>4.0.0</modelVersion>
