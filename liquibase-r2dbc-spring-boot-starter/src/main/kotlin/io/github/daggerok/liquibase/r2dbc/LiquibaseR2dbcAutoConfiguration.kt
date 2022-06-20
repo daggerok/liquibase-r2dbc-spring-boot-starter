@@ -66,22 +66,27 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
                     r2dbcProperties.url.startsWith("r2dbc:h2:mem:///", ignoreCase = true) ->
                         r2dbcProperties.url.lowercase()
                             .replaceFirst("r2dbc:h2:mem:///", "jdbc:h2:mem:")
-                            .apply { "$this;${r2dbcProperties.properties.entries.joinToString(separator = ";") { "${it.key}=${it.value}" }}" }
+                            .apply { "$this;${r2dbcProperties.toH2QueryParams()}" }
                     r2dbcProperties.url.startsWith("r2dbc:h2:file:///", ignoreCase = true) ->
                         r2dbcProperties.url.lowercase()
                             .replaceFirst("r2dbc:h2:file:///", "jdbc:h2:file:")
-                            .apply { "$this;${r2dbcProperties.properties.entries.joinToString(separator = ";") { "${it.key}=${it.value}" }}" }
+                            .apply { "$this;${r2dbcProperties.toH2QueryParams()}" }
                     r2dbcProperties.url.startsWith("r2dbc:h2:tcp", ignoreCase = true) ->
                         r2dbcProperties.url.lowercase()
                             .replaceFirst("r2dbc:", "jdbc:")
-                            .apply { "$this;${r2dbcProperties.properties.entries.joinToString(separator = ";") { "${it.key}=${it.value}" }}" }
+                            .apply { "$this;${r2dbcProperties.toH2QueryParams()}" }
                     else -> throw LiquibaseR2dbcNotSupportedException(r2dbcProperties.url)
                 }
             )
             .username(r2dbcProperties.username)
             .password(r2dbcProperties.password)
             .build()
-            .also { log.debug { "liquibaseR2dbcDataSource bean refers to: $it and ${it.connection.metaData.url} liquibase JDBC URL" } }
+            .also { log.debug { "liquibaseR2dbcDataSource bean refers to: $it. Liquibase JDBC URL: ${it.connection.metaData.url}" } }
+
+    private fun R2dbcProperties.toH2QueryParams(): String =
+        properties.entries.joinToString(separator = ";") {
+            "${it.key}=${it.value}"
+        }
 
     @ConditionalOnMissingBean
     @Bean(destroyMethod = "close")
