@@ -208,6 +208,36 @@ http :8005/api/messages
 ./mvnw -f examples/mariadb spring-boot:stop
 ```
 
+#### Integration test (MariaDB)
+
+```bash
+if [[ "" != `docker ps -aq` ]] ; then docker rm -f -v `docker ps -aq` ; fi
+
+docker run -p 3306:3306 -d --rm --name mariadb --platform=linux/x86_64 \
+  --env MARIADB_USER=user --env MARIADB_PASSWORD=password --env MARIADB_ROOT_PASSWORD=password --env MARIADB_DATABASE=database \
+  --health-cmd='mysqladmin ping -h 127.0.0.1 -u $MARIADB_USER --password=$MARIADB_PASSWORD || exit 1' \
+  --health-start-period=1s --health-retries=1111 --health-interval=1s --health-timeout=5s \
+  mariadb:10.7.4
+
+while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do
+  sleep 3 ; echo -n '.'
+done
+echo 'MariaDB is ready.'
+
+rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
+./mvnw clean install -DskipTests
+
+./mvnw -f examples/mariadb spring-boot:start
+
+http :8005
+http :8005/api
+http :8005/api/messages
+http :8005/api/messages body=hey
+http :8005/api/messages
+
+./mvnw -f examples/mariadb spring-boot:stop
+```
+
 <!--
 
 ### JDK
