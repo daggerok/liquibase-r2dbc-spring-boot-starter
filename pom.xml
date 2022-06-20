@@ -53,7 +53,7 @@
     </scm>
     <properties>
         <gpg.skip>true</gpg.skip>
-        <kotlin.version>1.6.21</kotlin.version>
+        <kotlin.version>1.7.0</kotlin.version>
         <spring-boot.version>2.7.0</spring-boot.version>
         <testcontainers.version>1.17.2</testcontainers.version>
         <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
