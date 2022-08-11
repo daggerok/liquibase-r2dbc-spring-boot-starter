@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.0</version>
+        <version>2.7.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modules>
@@ -53,17 +53,17 @@
     </scm>
     <properties>
         <gpg.skip>true</gpg.skip>
-        <kotlin.version>1.7.0</kotlin.version>
-        <spring-boot.version>2.7.0</spring-boot.version>
-        <testcontainers.version>1.17.2</testcontainers.version>
+        <kotlin.version>1.7.10</kotlin.version>
+        <spring-boot.version>2.7.2</spring-boot.version>
+        <testcontainers.version>1.17.3</testcontainers.version>
         <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
-        <log4j-api-kotlin.version>1.1.0</log4j-api-kotlin.version>
+        <log4j-api-kotlin.version>1.2.0</log4j-api-kotlin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
         <webjars.npm.mvp.css.version>1.8.0</webjars.npm.mvp.css.version>
         <javax.activation-api.version>1.2.0</javax.activation-api.version>
         <frontend-maven-plugin.version>1.12.1</frontend-maven-plugin.version>
-        <frontend-maven-plugin.npmVersion>8.12.1</frontend-maven-plugin.npmVersion>
-        <frontend-maven-plugin.nodeVersion>v18.3.0</frontend-maven-plugin.nodeVersion>
+        <frontend-maven-plugin.npmVersion>8.16.0</frontend-maven-plugin.npmVersion>
+        <frontend-maven-plugin.nodeVersion>v18.7.0</frontend-maven-plugin.nodeVersion>
         <nexus-staging-maven-plugin.version>1.6.13</nexus-staging-maven-plugin.version>
     </properties>
     <dependencies>
@@ -79,7 +79,6 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api-kotlin</artifactId>
             <version>${log4j-api-kotlin.version}</version>
-            <optional>true</optional>
         </dependency>
         <!--  -->
         <dependency>

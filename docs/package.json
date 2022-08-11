@@ -1,6 +1,6 @@
 {
   "name": "liquibase-r2dbc-spring-boot-starter",
-  "version": "2.0.5",
+  "version": "2.0.6-SNAPSHOT",
   "description": "Liquibase R2DBC spring-boot starter",
   "main": "index.js",
   "authors": {
@@ -9,6 +9,8 @@
   },
   "repository": "https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter",
   "scripts": {
+    "clear": "npm run clean -- package-lock.json node_modules",
+    "clean": "rimraf -rf .vuepress/.cache .vuepress/.temp .vuepress/dist",
     "dev": "vuepress dev . --clean-temp --clean-cache --port=3000",
     "build": "vuepress build . --clean-temp --clean-cache --dest=.vuepress/dist",
     "pages": "cross-env BASE=/liquibase-r2dbc-spring-boot-starter/ vuepress build . --dest=.vuepress/dist",
@@ -17,11 +19,20 @@
     "stop": "killall -9 node"
   },
   "license": "MIT",
+  "keywords": [
+    "rimraf",
+    "vuepress",
+    "cross-env",
+    "vuepress@next",
+    "vuepress@2.0.0-beta.49",
+    "vuepress-theme-default-prefers-color-scheme"
+  ],
   "devDependencies": {
-    "@types/node": "17.0.40",
+    "@types/node": "18.7.1",
     "cross-env": "7.0.3",
-    "serve": "13.0.2",
-    "vuepress": "2.0.0-beta.46",
+    "rimraf": "3.0.2",
+    "serve": "14.0.1",
+    "vuepress": "2.0.0-beta.49",
     "vuepress-theme-default-prefers-color-scheme": "2.0.0"
   }
 }

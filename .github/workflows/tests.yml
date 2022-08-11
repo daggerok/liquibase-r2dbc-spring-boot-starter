@@ -25,6 +25,7 @@ jobs:
           path: |
             ~/.m2
             ~/.npm
+            ~/.node
             ~/.docker
             ~/.gradle
           key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}

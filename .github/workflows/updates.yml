@@ -8,8 +8,8 @@ on:
         required: false
         default: ''
 jobs:
-  updates:
-    name: updates
+  check-maven-updates:
+    name: check maven updates
     if: startsWith(github.event.inputs.trigger, 'm')
       || startsWith(github.event.inputs.trigger, 'M')
     strategy:
@@ -27,9 +27,44 @@ jobs:
           path: |
             ~/.m2
             ~/.npm
+            ~/.node
             ~/.docker
             ~/.gradle
           key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
       - run: cd $GITHUB_WORKSPACE ; ./mvnw versions:display-parent-updates
       - run: cd $GITHUB_WORKSPACE ; ./mvnw versions:display-plugin-updates
       - run: cd $GITHUB_WORKSPACE ; ./mvnw versions:display-property-updates
+  check-npm-updates:
+    if: github.event.inputs.trigger == ''
+      || !startsWith(github.event.inputs.trigger, 'm')
+      || !startsWith(github.event.inputs.trigger, 'M')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.m2
+            ~/.npm
+            ~/.node
+            ~/.docker
+            ~/.gradle
+          key: ${{ runner.os }}-build-${{ hashFiles('**/*gradle*', '**/pom.xml', '**/package.json', '**/package-lock.json') }}
+      - run: npm --prefix docs install
+      - run: npm --prefix docs run pages
+      #
+      - run: npm_config_yes=true npx npm-check-updates -u --packageFile docs/package.json
+      - run: npm --prefix docs install
+      - run: npm --prefix docs run pages
+      #
+      - run: npm --prefix docs run clean
+      - run: npm --prefix docs install
+      - run: npm --prefix docs run pages
+      #
+      - run: npm --prefix docs run clean
+      - run: npm --prefix docs run clear
+      - run: npm --prefix docs install
+      - run: npm --prefix docs run pages
