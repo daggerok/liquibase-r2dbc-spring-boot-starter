@@ -240,6 +240,18 @@ http :8005/api/messages
 
 <!--
 
+### Set maven versions
+
+1.0.5 -> 1.1.0-SNAPSHOT
+
+```bash
+./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT
+./mvnw build-helper:parse-version versions:commit
+./mvnw clean ; ./mvnw -U
+git add .
+git commit -am "..."
+```
+
 ### JDK
 
 ```bash

@@ -12,14 +12,14 @@ automatically within application runner bean
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>2.0.6-SNAPSHOT</version>
+  <version>2.1.0-SNAPSHOT</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.0.6-SNAPSHOT")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.1.0-SNAPSHOT")
 ```
 
 If you want to use `*-SNAPSHOT` version, please make sure you have added snapshot maven repository like so
@@ -239,6 +239,18 @@ http :8005/api/messages
 ```
 
 <!--
+
+### Set maven versions
+
+1.0.5 -> 1.1.0-SNAPSHOT
+
+```bash
+./mvnw build-helper:parse-version versions:set -DnewVersion=\${parsedVersion.majorVersion}.\${parsedVersion.nextMinorVersion}.0-SNAPSHOT
+./mvnw build-helper:parse-version versions:commit
+./mvnw clean ; ./mvnw -U
+git add .
+git commit -am "..."
+```
 
 ### JDK
 
