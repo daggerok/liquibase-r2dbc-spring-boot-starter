@@ -10,8 +10,11 @@ on:
 jobs:
   check-maven-updates:
     name: check maven updates
-    if: startsWith(github.event.inputs.trigger, 'm')
-      || startsWith(github.event.inputs.trigger, 'M')
+    #if: startsWith(github.event.inputs.trigger, 'm')
+    #  || startsWith(github.event.inputs.trigger, 'M')
+    if: github.event.inputs.trigger == ''
+      || !startsWith(github.event.inputs.trigger, 'm')
+      || !startsWith(github.event.inputs.trigger, 'M')
     strategy:
       matrix:
         java: [8, 11, 17, 18]
