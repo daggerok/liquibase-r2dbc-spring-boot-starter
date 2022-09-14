@@ -219,3 +219,5 @@ class MysqlApplicationTest(@Autowired val databaseClient: DatabaseClient) : Abst
 ## Contributing
 
 Feel free to [contribute](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter#developer-guide-for-contributors)!
+
+Also check [developer guide](./CONTRIBUTING.md)
