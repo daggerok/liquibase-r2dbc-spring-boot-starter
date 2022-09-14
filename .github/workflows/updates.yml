@@ -56,6 +56,7 @@ jobs:
       - run: npm --prefix docs install -E
       - run: npm --prefix docs run pages
       #
+      #- run: npm --prefix docs upgrade
       - run: npm_config_yes=true npx npm-check-updates -u --packageFile docs/package.json
       - run: npm --prefix docs install -E
       - run: npm --prefix docs run pages

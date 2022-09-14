@@ -1,6 +1,6 @@
 {
   "name": "liquibase-r2dbc-spring-boot-starter",
-  "version": "2.1.1",
+  "version": "2.1.2-SNAPSHOT",
   "description": "Liquibase R2DBC spring-boot starter",
   "main": "index.js",
   "authors": {
@@ -9,6 +9,7 @@
   },
   "repository": "https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter",
   "scripts": {
+    "upgrade": "cross-env npm_config_yes=true npx npm-check-updates -u",
     "clear": "npm run clean -- package-lock.json node_modules",
     "clean": "rimraf -rf .vuepress/.cache .vuepress/.temp .vuepress/dist",
     "dev": "vuepress dev . --clean-temp --clean-cache --port=3000",
@@ -28,7 +29,7 @@
     "vuepress-theme-default-prefers-color-scheme"
   ],
   "devDependencies": {
-    "@types/node": "18.7.1",
+    "@types/node": "18.7.18",
     "cross-env": "7.0.3",
     "rimraf": "3.0.2",
     "serve": "14.0.1",
