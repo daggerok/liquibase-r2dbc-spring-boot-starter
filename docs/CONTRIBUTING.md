@@ -7,6 +7,40 @@ Feel free to contribute! Create a fork or report bug to improve this project
 ./mvnw clean ; ./mvnw verify
 ```
 
+## Integration test (H2 file)
+
+```bash
+rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
+./mvnw clean install -DskipTests
+
+./mvnw -f examples/h2/file spring-boot:start
+
+http :8003
+http :8003/api
+http :8003/api/messages
+http :8003/api/messages body=hey
+http :8003/api/messages
+
+./mvnw -f examples/h2/file spring-boot:stop
+```
+
+## Integration test (H2 mem)
+
+```bash
+rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
+./mvnw clean install -DskipTests
+
+./mvnw -f examples/h2/mem spring-boot:start
+
+http :8004
+http :8004/api
+http :8004/api/messages
+http :8004/api/messages body=hey
+http :8004/api/messages
+
+./mvnw -f examples/h2/mem spring-boot:stop
+```
+
 ## Integration test (MySQL)
 
 ```bash
@@ -69,70 +103,6 @@ http :8002/api/messages
 
 ./mvnw -f examples/postgresql spring-boot:stop
 docker stop postgres
-```
-
-## Integration test (H2 file)
-
-```bash
-rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
-./mvnw clean install -DskipTests
-
-./mvnw -f examples/h2/file spring-boot:start
-
-http :8003
-http :8003/api
-http :8003/api/messages
-http :8003/api/messages body=hey
-http :8003/api/messages
-
-./mvnw -f examples/h2/file spring-boot:stop
-```
-
-## Integration test (H2 mem)
-
-```bash
-rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
-./mvnw clean install -DskipTests
-
-./mvnw -f examples/h2/mem spring-boot:start
-
-http :8004
-http :8004/api
-http :8004/api/messages
-http :8004/api/messages body=hey
-http :8004/api/messages
-
-./mvnw -f examples/h2/mem spring-boot:stop
-```
-
-## Integration test (H2 tcp file)
-
-```bash
-if [[ "" != `docker ps -aq` ]] ; then docker rm -f -v `docker ps -aq` ; fi
-
-docker run -p 3306:3306 -d --rm --name mariadb --platform=linux/x86_64 \
-  --env MARIADB_USER=user --env MARIADB_PASSWORD=password --env MARIADB_ROOT_PASSWORD=password --env MARIADB_DATABASE=database \
-  --health-cmd='mysqladmin ping -h 127.0.0.1 -u $MARIADB_USER --password=$MARIADB_PASSWORD || exit 1' \
-  --health-start-period=1s --health-retries=1111 --health-interval=1s --health-timeout=5s \
-  mariadb:10.7.4
-
-while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do
-  sleep 3 ; echo -n '.'
-done
-echo 'MariaDB is ready.'
-
-rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
-./mvnw clean install -DskipTests
-
-./mvnw -f examples/mariadb spring-boot:start
-
-http :8005
-http :8005/api
-http :8005/api/messages
-http :8005/api/messages body=hey
-http :8005/api/messages
-
-./mvnw -f examples/mariadb spring-boot:stop
 ```
 
 ## Integration test (MariaDB)
