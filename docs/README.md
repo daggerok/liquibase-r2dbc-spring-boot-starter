@@ -26,7 +26,88 @@ Update gradle `build.gradle(.kts)` file:
 dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:{{ $site.version }}")
 ```
 
-If you want to use `*-SNAPSHOT` version, please make sure you have added snapshot maven repository like so
+NOTE: Released version located on [repo1.maven.org](https://repo1.maven.org/maven2/io/github/daggerok/liquibase-r2dbc-spring-boot-starter/) repository
+
+## Supported databases
+
+Necessary dependencies related to database is going to be used.
+Do not forget add yours:
+
+### MySQL
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>dev.miku</groupId>
+        <artifactId>r2dbc-mysql</artifactId>
+        <version>${r2dbc-mysql.version}</version>
+        <scope>runtime</scope>
+    </dependency>
+<dependencies>
+```
+
+### MariaDB
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.mariadb.jdbc</groupId>
+        <artifactId>mariadb-java-client</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.mariadb</groupId>
+        <artifactId>r2dbc-mariadb</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>io.r2dbc</groupId>
+        <artifactId>r2dbc-pool</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+<dependencies>
+```
+
+### PostreSQL
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>postgresql</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>org.postgresql</groupId>
+        <artifactId>r2dbc-postgresql</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+<dependencies>
+```
+
+### H2
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>com.h2database</groupId>
+        <artifactId>h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>io.r2dbc</groupId>
+        <artifactId>r2dbc-h2</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+<dependencies>
+```
+
+NOTE: If you want to use `*-SNAPSHOT` version, please make sure you have added snapshot maven repository like so
 
 ```xml:no-v-pre:no-line-numbers
 <repositories>
@@ -52,9 +133,29 @@ repositories {
 
 See [s01.oss.sonatype.org](https://s01.oss.sonatype.org/content/repositories/snapshots/io/github/daggerok/) repository
 
-Otherwise, use only released version. See [repo1.maven.org](https://repo1.maven.org/maven2/io/github/daggerok/liquibase-r2dbc-spring-boot-starter/) repository
+## MySQL example
 
-## Configure
+### Install MySQL + R2DBC
+
+Update `pom.xml` file:
+
+```xml
+<dependencies>
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>dev.miku</groupId>
+        <artifactId>r2dbc-mysql</artifactId>
+        <version>${r2dbc-mysql.version}</version>
+        <scope>runtime</scope>
+    </dependency>
+<dependencies>
+```
+
+### Configure Spring Boot
 
 Update `src/main/resources/application.yml` file:
 
@@ -65,10 +166,10 @@ spring:
     username: 'user'
     password: 'password'
   liquibase:
-    change-log: classpath*:/liquibase/changelog-master.xml
+    change-log: classpath*:/db/changelog/db.changelog-master.xml
 ```
 
-## Add liquibase migrations
+### Add Liquibase migrations
 
 Create `src/main/resources/db/changelog/db.changelog-master.xml` file with for example next content:
 
@@ -150,9 +251,26 @@ And finally add `src/main/resources/db/changelog/V202206022344-create-table-mess
 </databaseChangeLog>
 ```
 
-## Test with Testcontainers
+### Test with Testcontainers
 
-To simplify developer workflow and infrastructure setup, use testcontainers with help of next Abstract test class:
+To simplify developer workflow and infrastructure setup, use testcontainers:
+
+```xml
+    <dependencies>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>mysql</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+```
+
+...with help of next Abstract test class:
 
 ```kotlin{14-16}
 @Testcontainers
@@ -227,8 +345,8 @@ Class-level annotation usage:
 package my.company
 
 /**
- * This `@WithLiquibaseR2DBC` annotation by default shoild ask `WithLiquibaseR2dbcListener` to pick
- * class and methods related migrations if they are exists:
+ * This `@WithLiquibaseR2DBC` annotation by default should ask `WithLiquibaseR2dbcListener`
+ * to pick and execute class and methods related migrations if they are exists:
  *
  * - classpath:/my/company/UsersRepositoryTests.xml
  * - classpath:/my/company/UsersRepositoryTests.shouldTestUsers.xml
@@ -253,13 +371,13 @@ package my.company
  * - src/test/kotlin/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
  * - src/test/resources/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
  *
- * Or in this case only specified migrations should be exectued by `WithLiquibaseR2dbcListener`
+ * Or in this case only specified migrations should be executed by `WithLiquibaseR2dbcListener`
  * before that test classes, for example these two:
  *
  * ```kotlin
  * @WithLiquibaseR2DBC("classpath:/users-test-liquibase.xml", "classpath:/user-messages-test-liquibase.xml")
  * ```
- */
+*/
 @SpringBootTest
 @WithLiquibaseR2DBC
 class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
@@ -285,8 +403,8 @@ package my.company
 class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
 
     /**
-     * This `@WithLiquibaseR2DBC` annotation should as `WithLiquibaseR2dbcListener` appliy
-     * specified `classpath:/users-test-liquibase.xml` migration, ie:
+     * This `@WithLiquibaseR2DBC` annotation should ask `WithLiquibaseR2dbcListener`
+     * to appliy specified `classpath:/users-test-liquibase.xml` migration, ie:
      *
      * - src/main/kotlin/users-test-liquibase.xml
      * - src/main/resources/users-test-liquibase.xml
@@ -302,9 +420,11 @@ class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
     /**
      * In this case with `@WithLiquibaseR2DBC` annotation by default `WithLiquibaseR2dbcListener`
      * should try to execute next migrations:
+     *
      * - classpath:/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
      *
      * ie, next files:
+     *
      * - src/main/kotlin/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
      * - src/main/resources/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
      * - src/test/kotlin/my/company/UsersRepositoryTests.shouldTestUserMessages.xml

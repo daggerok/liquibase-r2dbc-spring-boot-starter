@@ -12,17 +12,101 @@ automatically within application runner bean
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>2.1.3</version>
+  <version>2.1.4-SNAPSHOT</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.1.3")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.1.4-SNAPSHOT")
 ```
 
-If you want to use `*-SNAPSHOT` version, please make sure you have added snapshot maven repository like so
+And then use regular Spring Boot + Liquibase setup:
+
+* Create necessary Liquibase migration `src/main/resources/liquibase/master-changelog.xml` file
+* In `application.yaml` file add necessary liquibase configuration:
+  ```yaml
+  spring:
+    r2dbc:
+      url: 'r2dbc:mysql://127.0.0.1:3306/database'
+      username: 'user'
+      password: 'password'
+    liquibase:
+      change-log: classpath*:/liquibase/changelog-master.xml
+  logging:
+    level:
+      io.netty.resolver.dns.DnsServerAddressStreamProviders: off
+  ```
+* In `pom.xml` add necessary dependencies related to database going to be used:
+  * MySQL:
+    ```xml
+    <dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>dev.miku</groupId>
+            <artifactId>r2dbc-mysql</artifactId>
+            <version>0.8.2.RELEASE</version>
+            <scope>runtime</scope>
+        </dependency>
+    <dependencies>
+    ```
+  * MariaDB:
+    ```xml
+    <dependencies>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mariadb</groupId>
+            <artifactId>r2dbc-mariadb</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-pool</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    <dependencies>
+    ```
+  * PostgreSQL:
+    ```xml
+    <dependencies>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>r2dbc-postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    <dependencies>
+    ```
+  * H2:
+    ```xml
+    <dependencies>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.r2dbc</groupId>
+            <artifactId>r2dbc-h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    <dependencies>
+    ```
+
+NOTE: If you want to use `*-SNAPSHOT` version, please make sure you have added snapshot maven repository like so
 
 ```xml
 <repositories>
@@ -68,6 +152,12 @@ Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/git
 
 ### TODO: Future plans
 
+#### TODO: Add more database support
+
+TODO: Implement HyperSQL (HSQL) database example
+
+#### TODO: Implement @WithLiquibaseR2DBC annotation
+
 TODO: Implement `@WithLiquibaseR2DBC` annotation and `WithLiquibaseR2dbcListener` so they can be used,
 for example during testing to execute different liquibase migrations separatelly.
 
@@ -77,8 +167,8 @@ Class-level annotation usage:
 package my.company
 
 /**
- * This `@WithLiquibaseR2DBC` annotation by default shoild ask `WithLiquibaseR2dbcListener` to pick
- * class and methods related migrations if they are exists:
+ * This `@WithLiquibaseR2DBC` annotation by default should ask `WithLiquibaseR2dbcListener`
+ * to pick and execute class and methods related migrations if they are exists:
  *
  * - classpath:/my/company/UsersRepositoryTests.xml
  * - classpath:/my/company/UsersRepositoryTests.shouldTestUsers.xml
@@ -103,13 +193,13 @@ package my.company
  * - src/test/kotlin/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
  * - src/test/resources/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
  *
- * Or in this case only specified migrations should be exectued by `WithLiquibaseR2dbcListener`
+ * Or in this case only specified migrations should be executed by `WithLiquibaseR2dbcListener`
  * before that test classes, for example these two:
  *
  * ```kotlin
  * @WithLiquibaseR2DBC("classpath:/users-test-liquibase.xml", "classpath:/user-messages-test-liquibase.xml")
  * ```
- */
+*/
 @SpringBootTest
 @WithLiquibaseR2DBC
 class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
@@ -135,8 +225,8 @@ package my.company
 class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
 
     /**
-     * This `@WithLiquibaseR2DBC` annotation should as `WithLiquibaseR2dbcListener` appliy
-     * specified `classpath:/users-test-liquibase.xml` migration, ie:
+     * This `@WithLiquibaseR2DBC` annotation should ask `WithLiquibaseR2dbcListener`
+     * to appliy specified `classpath:/users-test-liquibase.xml` migration, ie:
      *
      * - src/main/kotlin/users-test-liquibase.xml
      * - src/main/resources/users-test-liquibase.xml
@@ -152,9 +242,11 @@ class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
     /**
      * In this case with `@WithLiquibaseR2DBC` annotation by default `WithLiquibaseR2dbcListener`
      * should try to execute next migrations:
+     *
      * - classpath:/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
      *
      * ie, next files:
+     *
      * - src/main/kotlin/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
      * - src/main/resources/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
      * - src/test/kotlin/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
