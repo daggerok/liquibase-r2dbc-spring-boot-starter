@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.3</version>
+        <version>2.7.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <modules>
@@ -54,7 +54,7 @@
     <properties>
         <gpg.skip>true</gpg.skip>
         <kotlin.version>1.7.10</kotlin.version>
-        <spring-boot.version>2.7.3</spring-boot.version>
+        <spring-boot.version>2.7.4</spring-boot.version>
         <testcontainers.version>1.17.3</testcontainers.version>
         <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
         <log4j-api-kotlin.version>1.2.0</log4j-api-kotlin.version>

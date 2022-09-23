@@ -66,6 +66,108 @@ Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/git
 * Testcontainers
 * Maven
 
+### TODO: Future plans
+
+TODO: Implement `@WithLiquibaseR2DBC` annotation and `WithLiquibaseR2dbcListener` so they can be used,
+for example during testing to execute different liquibase migrations separatelly.
+
+Class-level annotation usage:
+
+```kotlin
+package my.company
+
+/**
+ * This `@WithLiquibaseR2DBC` annotation by default shoild ask `WithLiquibaseR2dbcListener` to pick
+ * class and methods related migrations if they are exists:
+ *
+ * - classpath:/my/company/UsersRepositoryTests.xml
+ * - classpath:/my/company/UsersRepositoryTests.shouldTestUsers.xml
+ * - classpath:/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
+ *
+ * NOTE: migrations are related to class package, name and class method names
+ *
+ * ie next files:
+ *
+ * - src/main/kotlin/my/company/UsersRepositoryTests.xml
+ * - src/main/resources/my/company/UsersRepositoryTests.xml
+ * - src/test/kotlin/my/company/UsersRepositoryTests.xml
+ * - src/test/resources/my/company/UsersRepositoryTests.xml
+ *
+ * - src/main/kotlin/my/company/UsersRepositoryTests.shouldTestUsers.xml
+ * - src/main/resources/my/company/UsersRepositoryTests.shouldTestUsers.xml
+ * - src/test/kotlin/my/company/UsersRepositoryTests.shouldTestUsers.xml
+ * - src/test/resources/my/company/UsersRepositoryTests.shouldTestUsers.xml
+ *
+ * - src/main/kotlin/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
+ * - src/main/resources/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
+ * - src/test/kotlin/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
+ * - src/test/resources/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
+ *
+ * Or in this case only specified migrations should be exectued by `WithLiquibaseR2dbcListener`
+ * before that test classes, for example these two:
+ *
+ * ```kotlin
+ * @WithLiquibaseR2DBC("classpath:/users-test-liquibase.xml", "classpath:/user-messages-test-liquibase.xml")
+ * ```
+ */
+@SpringBootTest
+@WithLiquibaseR2DBC
+class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
+
+    @Test
+    fun shouldTestUsers() {
+        // ...
+    }
+
+    @Test
+    fun shouldTestUserMessages() {
+        // ...
+    }
+}
+```
+
+Method-level annotation usage:
+
+```kotlin
+package my.company
+
+@SpringBootTest
+class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
+
+    /**
+     * This `@WithLiquibaseR2DBC` annotation should as `WithLiquibaseR2dbcListener` appliy
+     * specified `classpath:/users-test-liquibase.xml` migration, ie:
+     *
+     * - src/main/kotlin/users-test-liquibase.xml
+     * - src/main/resources/users-test-liquibase.xml
+     * - src/test/kotlin/users-test-liquibase.xml
+     * - src/test/resources/users-test-liquibase.xml
+     */
+    @Test
+    @WithLiquibaseR2DBC("classpath:/users-test-liquibase.xml")
+    fun `should test users`() {
+        // ...
+    }
+
+    /**
+     * In this case with `@WithLiquibaseR2DBC` annotation by default `WithLiquibaseR2dbcListener`
+     * should try to execute next migrations:
+     * - classpath:/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
+     *
+     * ie, next files:
+     * - src/main/kotlin/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
+     * - src/main/resources/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
+     * - src/test/kotlin/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
+     * - src/test/resources/my/company/UsersRepositoryTests.shouldTestUserMessages.xml
+     */
+    @Test
+    @WithLiquibaseR2DBC
+    fun shouldTestUserMessages() {
+        // ...
+    }
+}
+```
+
 ### Reference documentation
 
 Checkout [documentation](https://daggerok.github.io/liquibase-r2dbc-spring-boot-starter/) for details
