@@ -12,14 +12,14 @@ automatically within application runner bean
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>2.1.5</version>
+  <version>2.1.6</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.1.5")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.1.6")
 ```
 
 And then use regular Spring Boot + Liquibase setup:
@@ -138,7 +138,7 @@ Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/git
 
 * Liquibase
 * R2DBC
-* Spring Boot
+* Spring Boot 2.x
 * Kotlin
 * Junit Jupiter 5
 * H2 (file, mem)
