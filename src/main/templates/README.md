@@ -138,7 +138,7 @@ Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/git
 
 * Liquibase
 * R2DBC
-* Spring Boot
+* Spring Boot 2.x
 * Kotlin
 * Junit Jupiter 5
 * H2 (file, mem)
