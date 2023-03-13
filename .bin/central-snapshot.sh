@@ -1,12 +1,20 @@
 #!/usr/bin/env bash
 
 ###
-# Happy path release automation script
+# Happy path snapshot automation script
 #
 # Usage:
 #         GPG_PASSPHRASE=... bash .bin/central-snapshot.sh
 #         bash .bin/central-snapshot.sh -Dgpg.passphrase=...
 #         GPG_PASSPHRASE=... bash .bin/central-snapshot.sh -DskipTests
+#
+# Require:
+#         brew reinstall gnupg@2.2
+#         export GPG_HOME=$HOME/.homebrew/opt/gnupg@2.2
+#         export PATH=$GPG_HOME/bin:$PATH
+#         gpg --gen-key # specify: Real name, Email address, press Okay, enter passphrase
+#         see details here: https://central.sonatype.org/publish/publish-maven/
+#         and here: https://central.sonatype.org/publish/requirements/gpg/#listing-keys
 ###
 
 set -o pipefail

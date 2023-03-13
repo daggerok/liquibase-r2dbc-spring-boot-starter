@@ -10,7 +10,7 @@ Feel free to contribute! Create a fork or report bug to improve this project
 ## Integration test (H2 file)
 
 ```bash
-rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
+rm -rf ~/.m2/repository/io/github/daggerok/example ~/.m2/repository/io/github/daggerok/liquibase-r2dbc-spring-boot-starter*
 ./mvnw clean install -DskipTests
 
 ./mvnw -f examples/h2/file spring-boot:start
@@ -27,7 +27,7 @@ http :8003/api/messages
 ## Integration test (H2 mem)
 
 ```bash
-rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
+rm -rf ~/.m2/repository/io/github/daggerok/example ~/.m2/repository/io/github/daggerok/liquibase-r2dbc-spring-boot-starter*
 ./mvnw clean install -DskipTests
 
 ./mvnw -f examples/h2/mem spring-boot:start
@@ -60,7 +60,7 @@ done
 
 sleep 15; echo 'MySQL is ready.'
 
-rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
+rm -rf ~/.m2/repository/io/github/daggerok/example ~/.m2/repository/io/github/daggerok/liquibase-r2dbc-spring-boot-starter*
 ./mvnw clean install -DskipTests
 
 ./mvnw -f examples/mysql spring-boot:start
@@ -90,7 +90,7 @@ while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 
   sleep 3 ; echo -n '.'
 done
 
-rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
+rm -rf ~/.m2/repository/io/github/daggerok/example ~/.m2/repository/io/github/daggerok/liquibase-r2dbc-spring-boot-starter*
 ./mvnw clean install -DskipTests
 
 ./mvnw -f examples/postgresql spring-boot:start
@@ -121,7 +121,7 @@ while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 
 done
 echo 'MariaDB is ready.'
 
-rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc* 
+rm -rf ~/.m2/repository/io/github/daggerok/example ~/.m2/repository/io/github/daggerok/liquibase-r2dbc-spring-boot-starter*
 ./mvnw clean install -DskipTests
 
 ./mvnw -f examples/mariadb spring-boot:start

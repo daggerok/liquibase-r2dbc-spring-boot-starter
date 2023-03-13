@@ -59,7 +59,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: sudo apt install -y httpie
-      - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
+      - run: sudo rm -rfv ~/.m2/repository/io/github/daggerok/example ~/.m2/repository/io/github/daggerok/liquibase-r2dbc-spring-boot-starter*
       - run: ./mvnw clean install -DskipTests
       - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/h2/file spring-boot:start
       - run: npm_config_yes=true npx wait-port 8003
@@ -97,7 +97,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: sudo apt install -y httpie
-      - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
+      - run: sudo rm -rfv ~/.m2/repository/io/github/daggerok/example ~/.m2/repository/io/github/daggerok/liquibase-r2dbc-spring-boot-starter*
       - run: ./mvnw clean install -DskipTests
       - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/h2/file spring-boot:start
       - run: npm_config_yes=true npx wait-port 8003
@@ -135,7 +135,7 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
       - run: sudo apt install -y httpie
-      - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
+      - run: sudo rm -rfv ~/.m2/repository/io/github/daggerok/example ~/.m2/repository/io/github/daggerok/liquibase-r2dbc-spring-boot-starter*
       - run: ./mvnw clean install -DskipTests
       - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/h2/mem spring-boot:start
       - run: npm_config_yes=true npx wait-port 8004
@@ -235,7 +235,7 @@ jobs:
             postgres:14.3-alpine3.16
       - run: while [[ $(docker ps -n 1 -q -f health=healthy -f status=running | wc -l) -lt 1 ]] ; do sleep 3 ; echo -n '.' ; done ; sleep 15; echo 'Postgres is ready.'
       - run: npm_config_yes=true npx wait-port 5432
-      - run: rm -rf ~/.m2/repository/daggerok/liquibase/r2dbc*
+      - run: sudo rm -rfv ~/.m2/repository/io/github/daggerok/example ~/.m2/repository/io/github/daggerok/liquibase-r2dbc-spring-boot-starter*
       - run: ./mvnw clean install -DskipTests
       - run: cd $GITHUB_WORKSPACE ; ./mvnw -f examples/postgresql spring-boot:start
       - run: npm_config_yes=true npx wait-port 8002
