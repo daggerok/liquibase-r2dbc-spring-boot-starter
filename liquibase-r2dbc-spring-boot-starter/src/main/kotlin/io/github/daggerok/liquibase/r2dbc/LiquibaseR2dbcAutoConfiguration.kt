@@ -7,7 +7,7 @@ import liquibase.Liquibase
 import liquibase.database.Database
 import liquibase.database.DatabaseFactory
 import liquibase.database.jvm.JdbcConnection
-import liquibase.resource.ClassLoaderResourceAccessor
+import liquibase.integration.spring.SpringResourceAccessor
 import org.apache.logging.log4j.kotlin.logger
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
@@ -38,8 +38,8 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
 
     @Bean
     @ConditionalOnMissingBean
-    fun liquibaseR2dbcResourceAccessor(resourceLoader: ResourceLoader): ClassLoaderResourceAccessor =
-        ClassLoaderResourceAccessor(resourceLoader.classLoader)
+    fun liquibaseR2dbcResourceAccessor(resourceLoader: ResourceLoader): SpringResourceAccessor =
+        SpringResourceAccessor(resourceLoader)
             .also { log.debug { "liquibaseR2dbcResourceAccessor bean refers to: $it" } }
 
     @Bean
@@ -102,7 +102,7 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
 
     @Bean
     @ConditionalOnMissingBean
-    fun liquibaseR2dbcUpdate(liquibaseR2dbcResourceAccessor: ClassLoaderResourceAccessor, liquibaseR2dbcDatabase: Database) =
+    fun liquibaseR2dbcUpdate(liquibaseR2dbcResourceAccessor: SpringResourceAccessor, liquibaseR2dbcDatabase: Database) =
         ApplicationRunner {
             Liquibase(props.changeLog, liquibaseR2dbcResourceAccessor, liquibaseR2dbcDatabase)
                 .also { log.debug { "liquibaseR2dbcUpdate bean refers to: $it" } }
