@@ -15,6 +15,22 @@
 #         gpg --gen-key # specify: Real name, Email address, press Okay, enter passphrase
 #         see details here: https://central.sonatype.org/publish/publish-maven/
 #         and here: https://central.sonatype.org/publish/requirements/gpg/#listing-keys
+#         ```bash
+#         cp -Rfv ~/.m2/settings.xml ~/.m2/settings.xml.backup
+#         echo '
+#         <?xml version="1.0" encoding="UTF-8"?>
+#         <settings xmlns="http://maven.apache.org/SETTINGS/1.1.0"
+#                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+#                   xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 https://maven.apache.org/xsd/settings-1.1.0.xsd">
+#           <servers>
+#             <server>
+#               <id>ossrh</id>
+#               <username>Sonatype username...</username>
+#               <password>Sonatype password...</password>
+#             </server>
+#           </servers>
+#         </settings>
+#         ' > ~/.m2/settings.xml
 ###
 
 set -o pipefail

@@ -262,6 +262,6 @@ class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
 
 ### Reference documentation
 
-Checkout [documentation](https://daggerok.github.io/liquibase-r2dbc-spring-boot-starter/) for details
-
-ALso check [developer guide for contributors](docs/CONTRIBUTING.md)
+* Checkout [documentation](https://daggerok.github.io/liquibase-r2dbc-spring-boot-starter/) for details
+* ALso check [developer guide for contributors](docs/CONTRIBUTING.md)
+* [Guide to uploading artifacts to the Central Repository](https://maven.apache.org/repository/guide-central-repository-upload.html)
