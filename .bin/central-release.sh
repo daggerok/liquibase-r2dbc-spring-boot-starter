@@ -12,10 +12,20 @@
 #         brew reinstall gnupg@2.2
 #         export GPG_HOME=$HOME/.homebrew/opt/gnupg@2.2
 #         export PATH=$GPG_HOME/bin:$PATH
+#
 #         gpg --gen-key # specify: Real name, Email address, press Okay, enter passphrase
-#         see details here: https://central.sonatype.org/publish/publish-maven/
-#         and here: https://central.sonatype.org/publish/requirements/gpg/#listing-keys
-#         ```bash
+#
+#         gpg --list-signatures
+#         gpg --keyserver keyserver.ubuntu.com --send-keys 0D6866D45122F4B762BBA078CA756566F2B91BC1 # <- your key
+#
+#         if it doesn't worked:
+#         gpg --armor --output public-key.gpg --export daggerok@gmail.com # <- your email
+#         cat public-key.gpg | pbcopy
+#         go to https://keyserver.ubuntu.com/
+#         click Submit Key
+#         paste copied key with pbcopy command and submit it
+#         verify: https://keyserver.ubuntu.com/pks/lookup?search=0D6866D45122F4B762BBA078CA756566F2B91BC1&fingerprint=on&op=index
+#
 #         cp -Rfv ~/.m2/settings.xml ~/.m2/settings.xml.backup
 #         echo '
 #         <?xml version="1.0" encoding="UTF-8"?>
@@ -30,7 +40,12 @@
 #             </server>
 #           </servers>
 #         </settings>
-#         ' > ~/.m2/settings.xml
+#
+#         see details here: https://central.sonatype.org/publish/publish-maven/
+#         and here: https://central.sonatype.org/publish/requirements/gpg/#listing-keys
+#         and here: https://www.linode.com/docs/guides/gpg-keys-to-send-encrypted-messages/#generate-a-revocation-certificate
+#         and here: https://issues.sonatype.org/browse/OSSRH-71957
+#         and here: https://maven.apache.org/repository/guide-central-repository-upload.html
 ###
 
 set -o pipefail

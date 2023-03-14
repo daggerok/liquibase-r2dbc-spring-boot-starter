@@ -12,14 +12,14 @@ automatically within application runner bean
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>2.1.7</version>
+  <version>2.1.8</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.1.7")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.1.8")
 ```
 
 And then use regular Spring Boot + Liquibase setup:
@@ -264,4 +264,3 @@ class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
 
 * Checkout [documentation](https://daggerok.github.io/liquibase-r2dbc-spring-boot-starter/) for details
 * ALso check [developer guide for contributors](docs/CONTRIBUTING.md)
-* [Guide to uploading artifacts to the Central Repository](https://maven.apache.org/repository/guide-central-repository-upload.html)

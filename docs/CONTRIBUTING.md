@@ -240,6 +240,7 @@ echo '
 ### Reference Documentation
 
 Useful links:
+* [Guide to uploading artifacts to the Central Repository](https://maven.apache.org/repository/guide-central-repository-upload.html)
 * [GPG](https://central.sonatype.org/publish/requirements/gpg/)
 * [Maven Deploy](https://central.sonatype.org/publish/publish-maven/)
 * https://www.mojohaus.org/versions-maven-plugin/examples/set.html
