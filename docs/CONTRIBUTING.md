@@ -1,6 +1,22 @@
 # Welcome to contributing developer guide
 Feel free to contribute! Create a fork or report bug to improve this project
 
+## Prerequisites
+
+Depends on your locally installed Docker you may see next testcontainers error:
+
+```
+2023-09-09 10:51:54.434 ERROR   main  [ d.DockerClientProviderStrategy ] - Could not find a valid Docker environment. Please check configuration. Attempted configurations were:
+        UnixSocketClientProviderStrategy: failed with exception InvalidConfigurationException (Could not find unix domain socket). Root cause NoSuchFileException (/var/run/docker.sock)As no valid configuration was found, execution cannot continue.
+See https://www.testcontainers.org/on_failure.html for more details.
+```
+
+I fixed it on my mac like so:
+
+```bash
+sudo ln -s -v ~/.docker/run/docker.sock /var/run/docker.sock
+```
+
 ## Build and test
 
 ```bash

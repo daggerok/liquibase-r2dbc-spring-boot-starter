@@ -12,6 +12,8 @@ spring:
       DB_CLOSE_ON_EXIT: FALSE
   liquibase:
     change-log: classpath*:/liquibase/changelog-master.xml
+    liquibase-schema: PUBLIC
+    default-schema: PUBLIC
 server:
   port: 8004
 logging:

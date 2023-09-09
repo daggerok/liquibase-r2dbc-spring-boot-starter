@@ -8,4 +8,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 data class LiquibaseR2dbcProperties(
     @Suppress("UNUSED") val enabled: Boolean = true,
     val changeLog: String = "",
+    val defaultSchema: String = "",
+    val liquibaseSchema: String = "",
 )
