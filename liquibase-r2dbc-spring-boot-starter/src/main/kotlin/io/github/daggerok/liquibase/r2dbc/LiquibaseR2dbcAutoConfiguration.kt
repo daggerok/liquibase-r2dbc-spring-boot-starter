@@ -98,6 +98,8 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
     @Bean(destroyMethod = "close")
     fun liquibaseR2dbcDatabase(liquibaseR2dbcJdbcConnection: JdbcConnection): Database =
         DatabaseFactory.getInstance().findCorrectDatabaseImplementation(liquibaseR2dbcJdbcConnection)
+            .apply { if (props.liquibaseSchema.isNotBlank()) liquibaseSchemaName = props.liquibaseSchema }
+            .apply { if (props.defaultSchema.isNotBlank()) defaultSchemaName = props.defaultSchema }
             .also { log.debug { "liquibaseR2dbcDatabase bean refers to: $it" } }
 
     @Bean
