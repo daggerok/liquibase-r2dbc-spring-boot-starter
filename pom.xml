@@ -10,11 +10,11 @@
     </parent>
     <modules>
         <module>liquibase-r2dbc-spring-boot-starter</module>
+        <module>examples/h2/mem</module>
+        <module>examples/h2/file</module>
+        <module>examples/mariadb</module>
         <module>examples/mysql</module>
         <module>examples/postgresql</module>
-        <module>examples/h2/file</module>
-        <module>examples/h2/mem</module>
-        <module>examples/mariadb</module>
     </modules>
     <packaging>pom</packaging>
     <modelVersion>4.0.0</modelVersion>
