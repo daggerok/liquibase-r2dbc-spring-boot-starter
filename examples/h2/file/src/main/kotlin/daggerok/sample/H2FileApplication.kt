@@ -42,7 +42,7 @@ fun main(args: Array<String>) {
     }
 }
 
-@Table("messages")
+@Table("messages", schema = "app")
 data class Message(
     val body: String = "",
     val addressTo: String = "all",

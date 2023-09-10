@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                            https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="V202206022343" author="Maksim Kostromin">
+        <comment>Create `app` schema with rollback</comment>
+
+        <sql dbms="h2" endDelimiter=";">
+            CREATE SCHEMA IF NOT EXISTS app
+        </sql>
+
+        <rollback>
+            <sql dbms="h2" endDelimiter=";">
+                DROP SCHEMA IF EXISTS app
+            </sql>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>
