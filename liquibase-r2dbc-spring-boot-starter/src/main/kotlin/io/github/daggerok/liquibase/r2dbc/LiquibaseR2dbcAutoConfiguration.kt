@@ -11,8 +11,11 @@ import liquibase.integration.spring.SpringResourceAccessor
 import org.apache.logging.log4j.kotlin.logger
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.AutoConfigureAfter
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
@@ -31,9 +34,10 @@ import org.springframework.core.io.ResourceLoader
     prefix = "spring.liquibase",
     name = ["enabled"], havingValue = "true", matchIfMissing = true,
 )
-@AutoConfigureAfter(R2dbcAutoConfiguration::class)
+@ConditionalOnBean(DataSource::class)
 @ComponentScan(basePackageClasses = [R2dbcProperties::class])
 @EnableConfigurationProperties(LiquibaseR2dbcProperties::class)
+@AutoConfigureAfter(R2dbcAutoConfiguration::class, DataSourceAutoConfiguration::class, HibernateJpaAutoConfiguration::class)
 class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcProperties) {
 
     @Bean
