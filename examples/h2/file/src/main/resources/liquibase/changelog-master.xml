@@ -21,6 +21,7 @@
     <property name="id.type" dbms="h2" value="BIGINT"/>
 
     <!-- Migrations -->
+    <include file="classpath*:/liquibase/V202206022343-create-app-schema.xml"/>
     <include file="classpath*:/liquibase/V202206022344-create-table-messages.xml"/>
     <include file="classpath*:/liquibase/V202206022345-insert-into-messages.xml"/>
 
