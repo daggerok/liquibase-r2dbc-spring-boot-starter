@@ -13,7 +13,7 @@ spring:
   liquibase:
     change-log: classpath*:/liquibase/changelog-master.xml
     liquibase-schema: PUBLIC
-    default-schema: PUBLIC
+    default-schema: APP
 server:
   port: 8004
 logging:
