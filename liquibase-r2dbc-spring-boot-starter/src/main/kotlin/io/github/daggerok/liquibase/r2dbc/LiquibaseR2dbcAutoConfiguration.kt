@@ -123,7 +123,7 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
                 database.connection.takeUnless { it.isClosed }
                     ?.runCatching { super.close() }
                     ?.onSuccess { log.fine("Bean liquibaseR2dbc destroyed.") }
-                    ?.onFailure { log.info("liquibaseR2dbc bean close error: ${it.localizedMessage}") }
+                    ?.onFailure { log.warning("liquibaseR2dbc bean close error: ${it.localizedMessage}") }
             }
         }
 

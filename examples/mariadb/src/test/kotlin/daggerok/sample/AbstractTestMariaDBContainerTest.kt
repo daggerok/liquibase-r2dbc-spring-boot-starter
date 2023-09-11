@@ -13,7 +13,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 abstract class AbstractTestMariaDBContainerTest {
 
     companion object {
-        data class TestMariaDBContainer(val image: String = "mariadb:10.7.4") : MariaDBContainer<TestMariaDBContainer>(image)
+        data class TestMariaDBContainer(val image: String = "mariadb:11.1.2-jammy") : MariaDBContainer<TestMariaDBContainer>(image)
 
         @Container
         val mysqlContainer: TestMariaDBContainer = TestMariaDBContainer().withDatabaseName("database")

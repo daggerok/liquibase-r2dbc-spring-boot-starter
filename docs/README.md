@@ -38,8 +38,8 @@ Do not forget add yours:
 ```xml
 <dependencies>
     <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
         <scope>runtime</scope>
     </dependency>
     <dependency>
@@ -142,8 +142,8 @@ Update `pom.xml` file:
 ```xml
 <dependencies>
     <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
+        <groupId>com.mysql</groupId>
+        <artifactId>mysql-connector-j</artifactId>
         <scope>runtime</scope>
     </dependency>
     <dependency>
