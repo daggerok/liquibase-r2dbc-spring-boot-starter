@@ -15,14 +15,14 @@ Java 17, 18, 19, 20 with Spring Boot 3.x
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>2.7.15</version>
+  <version>3.1.3</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.7.15")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:3.1.3")
 ```
 
 And then use regular Spring Boot + Liquibase setup:
