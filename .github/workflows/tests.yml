@@ -11,7 +11,7 @@ jobs:
       || !startsWith(github.event.inputs.trigger, 'M')
     strategy:
       matrix:
-        java: [17, 18, 19, 20]
+        java: [17, 20]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -38,7 +38,7 @@ jobs:
       || !startsWith(github.event.inputs.trigger, 'M')
     strategy:
       matrix:
-        java: [17, 18, 19, 20]
+        java: [17, 20]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -76,7 +76,7 @@ jobs:
       || !startsWith(github.event.inputs.trigger, 'M')
     strategy:
       matrix:
-        java: [17, 18, 19, 20]
+        java: [17, 20]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -114,7 +114,7 @@ jobs:
       || !startsWith(github.event.inputs.trigger, 'M')
     strategy:
       matrix:
-        java: [17, 18, 19, 20]
+        java: [17, 20]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -152,7 +152,7 @@ jobs:
       || !startsWith(github.event.inputs.trigger, 'M')
     strategy:
       matrix:
-        java: [17, 18, 19, 20]
+        java: [17, 20]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -204,7 +204,7 @@ jobs:
       || !startsWith(github.event.inputs.trigger, 'M')
     strategy:
       matrix:
-        java: [17, 18, 19, 20]
+        java: [17, 20]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
