@@ -38,9 +38,9 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
 
     @Bean
     @ConditionalOnMissingBean
-    fun liquibaseR2dbcResourceAccessor(resourceLoader: ResourceLoader): SpringResourceAccessor =
+    fun liquibaseR2dbcSpringResourceAccessor(resourceLoader: ResourceLoader): SpringResourceAccessor =
         SpringResourceAccessor(resourceLoader)
-            .also { log.debug { "liquibaseR2dbcResourceAccessor bean refers to: $it" } }
+            .also { log.debug { "Bean liquibaseR2dbcSpringResourceAccessor(resourceLoader=$resourceLoader) initialized: $it" } }
 
     @Bean
     @ConditionalOnMissingBean
@@ -81,7 +81,7 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
             .username(r2dbcProperties.username)
             .password(r2dbcProperties.password)
             .build()
-            .also { log.debug { "liquibaseR2dbcDataSource bean refers to: $it. Liquibase JDBC URL: ${it.connection.metaData.url}" } }
+            .also { log.debug { "Bean liquibaseR2dbcDataSource(r2dbcProperties=$r2dbcProperties) initialized: $it. Liquibase JDBC URL: ${it.connection.metaData.url}" } }
 
     private fun R2dbcProperties.toH2QueryParams(): String =
         properties.entries.joinToString(separator = ";") {
@@ -91,26 +91,50 @@ class LiquibaseR2dbcAutoConfiguration(private val props: LiquibaseR2dbcPropertie
     @ConditionalOnMissingBean
     @Bean(destroyMethod = "close")
     fun liquibaseR2dbcJdbcConnection(liquibaseR2dbcDataSource: DataSource): JdbcConnection =
-        JdbcConnection(liquibaseR2dbcDataSource.connection)
-            .also { log.debug { "liquibaseR2dbcJdbcConnection bean refers to: $it" } }
+        object : JdbcConnection(liquibaseR2dbcDataSource.connection) {
+            init { log.debug { "Bean liquibaseR2dbcJdbcConnection(liquibaseR2dbcDataSource=$liquibaseR2dbcDataSource) initialized: $this" } }
 
+            override fun close() {
+                takeUnless { isClosed }
+                    ?.runCatching { super.close() }
+                    ?.onSuccess { log.debug("Bean liquibaseR2dbcJdbcConnection destroyed.") }
+                    ?.onFailure { log.warn("liquibaseR2dbcJdbcConnection bean close error: ${it.localizedMessage}") }
+            }
+        }
+
+    /**
+     * Configure liquibase database.
+     */
     @ConditionalOnMissingBean
     @Bean(destroyMethod = "close")
     fun liquibaseR2dbcDatabase(liquibaseR2dbcJdbcConnection: JdbcConnection): Database =
         DatabaseFactory.getInstance().findCorrectDatabaseImplementation(liquibaseR2dbcJdbcConnection)
             .apply { if (props.liquibaseSchema.isNotBlank()) liquibaseSchemaName = props.liquibaseSchema }
             .apply { if (props.defaultSchema.isNotBlank()) defaultSchemaName = props.defaultSchema }
-            .also { log.debug { "liquibaseR2dbcDatabase bean refers to: $it" } }
+            .also { log.debug { "Bean liquibaseR2dbcDatabase(liquibaseR2dbcJdbcConnection=$liquibaseR2dbcJdbcConnection) initialized: $it" } }
+
+    @ConditionalOnMissingBean
+    @Bean(destroyMethod = "close")
+    fun liquibaseR2dbc(liquibaseR2dbcSpringResourceAccessor: SpringResourceAccessor, liquibaseR2dbcDatabase: Database): Liquibase =
+        object : Liquibase(props.changeLog, liquibaseR2dbcSpringResourceAccessor, liquibaseR2dbcDatabase) {
+            init { log.fine("Bean liquibaseR2dbc(liquibaseR2dbcSpringResourceAccessor=$liquibaseR2dbcSpringResourceAccessor, liquibaseR2dbcDatabase=$liquibaseR2dbcDatabase) initialized: $this") }
+
+            override fun close() {
+                database.connection.takeUnless { it.isClosed }
+                    ?.runCatching { super.close() }
+                    ?.onSuccess { log.fine("Bean liquibaseR2dbc destroyed.") }
+                    ?.onFailure { log.warning("liquibaseR2dbc bean close error: ${it.localizedMessage}") }
+            }
+        }
 
     @Bean
     @ConditionalOnMissingBean
-    fun liquibaseR2dbcUpdate(liquibaseR2dbcResourceAccessor: SpringResourceAccessor, liquibaseR2dbcDatabase: Database) =
+    fun liquibaseR2dbcUpdate(liquibaseR2dbc: Liquibase) =
         ApplicationRunner {
-            Liquibase(props.changeLog, liquibaseR2dbcResourceAccessor, liquibaseR2dbcDatabase)
-                .also { log.debug { "liquibaseR2dbcUpdate bean refers to: $it" } }
+            liquibaseR2dbc.also { log.debug { "Bean liquibaseR2dbcUpdate(liquibaseR2dbc=$liquibaseR2dbc) initialized: $it" } }
                 .use {
                     it.update(Contexts(), LabelExpression(), true)
-                    log.info { "R2DBC liquibase update ${it.changeLogFile} completed" }
+                    log.info { "Liquibase R2DBC update ${it.changeLogFile} completed." }
                 }
         }
 
