@@ -4,6 +4,9 @@ PostgreSQL, MS SQL Server, r2dbc-pool, r2dbc-proxy or H2 database. It's not pure
 are simply transforming R2DBC URL into liquibase compatible in a little spring-boot starter to apply liquibase migrations update
 automatically within application runner bean
 
+## Support
+* Java 1.8, 11, 17, 18, 19, 20 with Spring Boot 2.x
+
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.daggerok/liquibase-r2dbc-spring-boot-starter.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.daggerok%22%20AND%20a:%22liquibase-r2dbc-spring-boot-starter%22)
 
 ### Getting started
@@ -12,14 +15,14 @@ automatically within application runner bean
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>2.7.14</version>
+  <version>2.7.15-SNAPSHOT</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.7.14")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.7.15-SNAPSHOT")
 ```
 
 And then use regular Spring Boot + Liquibase setup:
