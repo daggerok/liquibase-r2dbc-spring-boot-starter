@@ -5,7 +5,7 @@ are simply transforming R2DBC URL into liquibase compatible in a little spring-b
 automatically within application runner bean
 
 ## Support
-* Java 1.8, 11, 17, 18, 19, 20 with Spring Boot 2.x
+Java 1.8, 11, 17, 18, 19, 20 with Spring Boot 2.x
 
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.daggerok/liquibase-r2dbc-spring-boot-starter.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22io.github.daggerok%22%20AND%20a:%22liquibase-r2dbc-spring-boot-starter%22)
 
