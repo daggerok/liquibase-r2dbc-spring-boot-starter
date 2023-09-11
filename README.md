@@ -12,14 +12,14 @@ automatically within application runner bean
 <dependency>
   <groupId>io.github.daggerok</groupId>
   <artifactId>liquibase-r2dbc-spring-boot-starter</artifactId>
-  <version>2.1.11</version>
+  <version>2.7.14</version>
 </dependency>
 ```
 
 or
 
 ```kotlin
-dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.1.11")
+dependency("io.github.daggerok:liquibase-r2dbc-spring-boot-starter:2.7.14")
 ```
 
 And then use regular Spring Boot + Liquibase setup:
@@ -43,8 +43,8 @@ And then use regular Spring Boot + Liquibase setup:
     ```xml
     <dependencies>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
             <scope>runtime</scope>
         </dependency>
         <dependency>
