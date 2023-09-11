@@ -1,4 +1,4 @@
-# Liquibase R2DBC Spring Boot starter [![tests](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml/badge.svg)](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml) [![pages](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/pages.yaml/badge.svg)](https://daggerok.github.io/liquibase-r2dbc-spring-boot-starter/)
+# Liquibase R2DBC spring-boot starter [![tests](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml/badge.svg)](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/tests.yml) [![pages](https://github.com/daggerok/liquibase-r2dbc-spring-boot-starter/actions/workflows/pages.yaml/badge.svg)](https://daggerok.github.io/liquibase-r2dbc-spring-boot-starter/)
 This repository demonstrates how 2 implement Liquibase R2DBC Spring Boot starter to be used in reactive projects with MySQL, MariaDB,
 PostgreSQL, MS SQL Server, r2dbc-pool, r2dbc-proxy or H2 database. It's not pure reactive liquibase implementation as you might think, we
 are simply transforming R2DBC URL into liquibase compatible in a little spring-boot starter to apply liquibase migrations update
@@ -141,7 +141,7 @@ Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/git
 
 * Liquibase
 * R2DBC
-* Spring Boot 2.x
+* Spring Boot 3.x
 * Kotlin
 * Junit Jupiter 5
 * H2 (file, mem)
@@ -152,6 +152,8 @@ Otherwise, use only released version. See: https://repo1.maven.org/maven2/io/git
 * R2DBC (pool, proxy)
 * Testcontainers
 * Maven
+
+<!--
 
 ### TODO: Future plans
 
@@ -262,6 +264,8 @@ class UsersRepositoryTests(@Autowired val userRepository: UserRepository) {
     }
 }
 ```
+
+-->
 
 ### Reference documentation
 
