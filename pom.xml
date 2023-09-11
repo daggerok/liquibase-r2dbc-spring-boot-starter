@@ -54,13 +54,11 @@
     <properties>
         <gpg.skip>true</gpg.skip>
         <spring-boot.version>3.1.3</spring-boot.version>
-        <testcontainers.version>1.17.6</testcontainers.version>
+        <testcontainers.version>1.19.0</testcontainers.version>
         <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
         <log4j-api-kotlin.version>1.2.0</log4j-api-kotlin.version>
         <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
-        <mysql-connector-j.version>8.1.0</mysql-connector-j.version>
         <webjars.npm.mvp.css.version>1.8.0</webjars.npm.mvp.css.version>
-        <mariadb-java-client.version>3.2.0</mariadb-java-client.version>
         <javax.activation-api.version>1.2.0</javax.activation-api.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
         <versions-maven-plugin.version>2.13.0</versions-maven-plugin.version>
@@ -145,18 +143,6 @@
     </dependencies>
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>org.mariadb.jdbc</groupId>
-                <artifactId>mariadb-java-client</artifactId>
-                <version>${mariadb-java-client.version}</version>
-                <type>jar</type>
-            </dependency>
-            <dependency>
-                <groupId>com.mysql</groupId>
-                <artifactId>mysql-connector-j</artifactId>
-                <version>${mysql-connector-j.version}</version>
-                <type>jar</type>
-            </dependency>
             <dependency>
                 <groupId>org.testcontainers</groupId>
                 <artifactId>testcontainers-bom</artifactId>
